@@ -48,18 +48,21 @@ export class AppService {
   }
 
   async getDeposits(): Promise<Array<Object>> {
-    const events = await subchain.getPastEvents('Process_Payin', {
+    let events: any = await subchain.getPastEvents('Process_Payin', {
       fromBlock: 0,
     });
     // console.log(events);
     // const results = events.map(each => each.returnValues);
-    const results = events.map(each => each.returnValues).map(each => ({
-      requestId: each.requestId,
-      customerId: each.request.customerId,
-      amount: toNumber(each.request.amount),
-      fee_amount: toNumber(each.request.fee_amount),
-      rolling_reserve_amount: toNumber(each.request.rolling_reserve_amount),
-      status: each.request.status,
+    events = events.map(event => event.returnValues);
+    let results: any = await batchCall(web3, events.map(event => subchain.methods.payInRequests(event.requestId).call));
+    results = results.map((each, i) => ({
+      requestId: events[i].requestId,
+      customerId: each.customerId,
+      amount: toNumber(each.amount),
+      fee_amount: toNumber(each.fee_amount),
+      rolling_reserve_amount: toNumber(each.rolling_reserve_amount),
+      chargebackId: toNumber(each.chargebackId),
+      status: each.status,
 
     }))
     return results;

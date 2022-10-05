@@ -31,4 +31,10 @@ export class AppController {
     const deposits = await this.appService.getDeposits();
     return deposits;
   }
+
+  @Get('payouts')
+  async getPayouts(): Promise<Array<Object>> {
+    const payouts = await this.appService.getPayouts();
+    return payouts;
+  }
 }

@@ -69,5 +69,27 @@ export class AppService {
     }))
     return results;
   }
+
+  async getPayouts(): Promise<Array<Object>> {
+    let events: any = await subchain.getPastEvents('Complete_Payout', {
+      fromBlock: 0,
+    });
+    // console.log(events);
+    // const results = events.map(each => each.returnValues);
+    events = events.map(event => event.returnValues);
+    let results: any = await batchCall(web3, events.map(event => subchain.methods.payOutRequests(event.requestId).call));
+    results = results.map((each, i) => ({
+      requestId: events[i].requestId,
+      customerId: each.customerId,
+      amount: toNumber(each.amount),
+      fee_amount: toNumber(each.fee_amount),
+      accountInfo: each.accountInfo,
+      processed_at: Number(each.processed_at),
+      remark: each.remark,
+      status: each.status,
+
+    }))
+    return results;
+  }
   
 }

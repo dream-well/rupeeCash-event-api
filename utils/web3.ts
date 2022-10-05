@@ -33,3 +33,5 @@ export function batchCall(web3, calls) {
 
     return Promise.all(promises);
 }
+
+export const toNumber = (bn) => Number(web3.utils.fromWei(bn));

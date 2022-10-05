@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
-import web3, { batchCall, subchain } from 'utils/web3';
+import web3, { batchCall, subchain, toNumber } from 'utils/web3';
 
 @Injectable()
 export class AppService {
@@ -8,7 +8,7 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async getDeposits(): Promise<Number> {
+  async getDepositAmount(): Promise<Number> {
     const events = await subchain.getPastEvents('Process_Payin', {
       fromBlock: 0,
     });
@@ -20,7 +20,7 @@ export class AppService {
     return amount;
   }
 
-  async getCashouts(): Promise<Number> {
+  async getCashoutAmount(): Promise<Number> {
     const events = await subchain.getPastEvents('Complete_Payout', {
       fromBlock: 0,
     });
@@ -46,4 +46,23 @@ export class AppService {
       total, released, chargeback, settled, total_payouts
     }
   }
+
+  async getDeposits(): Promise<Array<Object>> {
+    const events = await subchain.getPastEvents('Process_Payin', {
+      fromBlock: 0,
+    });
+    // console.log(events);
+    // const results = events.map(each => each.returnValues);
+    const results = events.map(each => each.returnValues).map(each => ({
+      requestId: each.requestId,
+      customerId: each.request.customerId,
+      amount: toNumber(each.request.amount),
+      fee_amount: toNumber(each.request.fee_amount),
+      rolling_reserve_amount: toNumber(each.request.rolling_reserve_amount),
+      status: each.request.status,
+
+    }))
+    return results;
+  }
+  
 }

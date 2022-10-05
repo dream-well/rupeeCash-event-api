@@ -54,6 +54,10 @@
             "name": "fee_amount",
             "internalType": "uint256"
         }, {
+            "type": "uint256",
+            "name": "processed_at",
+            "internalType": "uint256"
+        }, {
             "type": "bytes32",
             "name": "accountInfo",
             "internalType": "bytes32"
@@ -168,7 +172,15 @@
             "internalType": "uint256"
         }, {
             "type": "uint256",
+            "name": "rolling_reserve_amount",
+            "internalType": "uint256"
+        }, {
+            "type": "uint256",
             "name": "chargebackId",
+            "internalType": "uint256"
+        }, {
+            "type": "uint256",
+            "name": "processed_at",
             "internalType": "uint256"
         }, {
             "type": "address",
@@ -208,7 +220,15 @@
             "internalType": "uint256"
         }, {
             "type": "uint256",
+            "name": "rolling_reserve_amount",
+            "internalType": "uint256"
+        }, {
+            "type": "uint256",
             "name": "chargebackId",
+            "internalType": "uint256"
+        }, {
+            "type": "uint256",
+            "name": "processed_at",
             "internalType": "uint256"
         }, {
             "type": "address",
@@ -245,6 +265,10 @@
         }, {
             "type": "uint256",
             "name": "fee_amount",
+            "internalType": "uint256"
+        }, {
+            "type": "uint256",
+            "name": "processed_at",
             "internalType": "uint256"
         }, {
             "type": "bytes32",
@@ -650,7 +674,15 @@
         "internalType": "uint256"
     }, {
         "type": "uint256",
+        "name": "rolling_reserve_amount",
+        "internalType": "uint256"
+    }, {
+        "type": "uint256",
         "name": "chargebackId",
+        "internalType": "uint256"
+    }, {
+        "type": "uint256",
+        "name": "processed_at",
         "internalType": "uint256"
     }, {
         "type": "address",
@@ -691,6 +723,10 @@
     }, {
         "type": "uint256",
         "name": "fee_amount",
+        "internalType": "uint256"
+    }, {
+        "type": "uint256",
+        "name": "processed_at",
         "internalType": "uint256"
     }, {
         "type": "bytes32",

@@ -13,8 +13,8 @@ export class AppController {
   @Get('dashboard')
   async getDashboard(): Promise<Object> {
     const [deposits, cashouts, info] = await Promise.all([
-      this.appService.getDeposits(),
-      this.appService.getCashouts(),
+      this.appService.getDepositAmount(),
+      this.appService.getCashoutAmount(),
       this.appService.getPayinInfo()
     ])
     const pending = 0;
@@ -24,5 +24,11 @@ export class AppController {
       chargeback: info['chargeback'],
       settlements: { pending: 0, settled: info['settled'] - pending }
     }
+  }
+
+  @Get('deposits')
+  async getDeposits(): Promise<Array<Object>> {
+    const deposits = await this.appService.getDeposits();
+    return deposits;
   }
 }

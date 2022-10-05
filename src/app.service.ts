@@ -1,0 +1,46 @@
+import { Injectable } from '@nestjs/common';
+import moment from 'moment';
+import web3, { batchCall, subchain } from 'utils/web3';
+
+@Injectable()
+export class AppService {
+  getHello(): string {
+    return 'Hello World!';
+  }
+
+  async getDeposits(): Promise<Number> {
+    const events = await subchain.getPastEvents('Process_Payin', {
+      fromBlock: 0,
+    });
+    // console.log(events);
+    const results = events.map(each => each.returnValues);
+    const today = moment.utc(moment.utc().format('YYYY-MM-DD')).unix();
+    const events_today = results.filter(each => true).map(each => each.request);
+    const amount = events_today.map(request => web3.utils.fromWei(request.amount));
+    return Number(amount);
+  }
+
+  async getCashouts(): Promise<Number> {
+    const events = await subchain.getPastEvents('Request_Payout', {
+      fromBlock: 0,
+    });
+    const results = events.map(each => each.returnValues);
+    const today = moment.utc(moment.utc().format('YYYY-MM-DD')).unix();
+    const events_today = results.filter(each => each.request.createdAt >= today).map(each => each.request);
+    const amount = events_today.map(request => web3.utils.fromWei(request.amount));
+    return Number(amount);
+  }
+
+  async getPayinInfo(): Promise<Object> {
+    let results:any = await batchCall(web3, [
+      subchain.methods.total_rolling_reserve_amount().call,
+      subchain.methods.paid_rolling_reserve_amount().call,
+      subchain.methods.totalChargeback().call
+    ]);
+    results = results.map(each => Number(web3.utils.fromWei(each)));
+    const [total, released, chargeback] = results;
+    return {
+      total, released, chargeback
+    }
+  }
+}

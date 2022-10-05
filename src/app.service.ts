@@ -48,7 +48,7 @@ export class AppService {
   }
 
   async getDeposits(): Promise<Array<Object>> {
-    let events: any = await subchain.getPastEvents('Process_Payin', {
+    let events: any = await subchain.getPastEvents('Request_Payin', {
       fromBlock: 0,
     });
     // console.log(events);
@@ -71,7 +71,7 @@ export class AppService {
   }
 
   async getPayouts(): Promise<Array<Object>> {
-    let events: any = await subchain.getPastEvents('Complete_Payout', {
+    let events: any = await subchain.getPastEvents('Request_Payout', {
       fromBlock: 0,
     });
     // console.log(events);

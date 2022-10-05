@@ -21,12 +21,12 @@ export class AppService {
   }
 
   async getCashouts(): Promise<Number> {
-    const events = await subchain.getPastEvents('Request_Payout', {
+    const events = await subchain.getPastEvents('Complete_Payout', {
       fromBlock: 0,
     });
     const results = events.map(each => each.returnValues);
     const today = moment.utc(moment.utc().format('YYYY-MM-DD')).unix();
-    const events_today = results.filter(each => each.request.createdAt >= today).map(each => each.request);
+    const events_today = results.filter(each => true).map(each => each.request);
     const amount = events_today.map(request => web3.utils.fromWei(request.amount));
     return Number(amount);
   }

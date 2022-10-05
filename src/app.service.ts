@@ -12,7 +12,7 @@ export class AppService {
     const events = await subchain.getPastEvents('Process_Payin', {
       fromBlock: 0,
     });
-    console.log(events);
+    // console.log(events);
     const results = events.map(each => each.returnValues);
     const today = moment.utc(moment.utc().format('YYYY-MM-DD')).unix();
     const events_today = results.filter(each => true).map(each => each.request);
@@ -36,12 +36,14 @@ export class AppService {
       subchain.methods.total_rolling_reserve_amount().call,
       subchain.methods.paid_rolling_reserve_amount().call,
       subchain.methods.totalChargeback().call,
-      subchain.methods.total_settled_amount().call
+      subchain.methods.total_settled_amount().call,
+      subchain.methods.total_payouts_processed().call,
+
     ]);
     results = results.map(each => Number(web3.utils.fromWei(each)));
-    const [total, released, chargeback, settled] = results;
+    const [total, released, chargeback, settled, total_payouts] = results;
     return {
-      total, released, chargeback, settled
+      total, released, chargeback, settled, total_payouts
     }
   }
 }

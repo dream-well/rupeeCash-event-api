@@ -19,7 +19,7 @@ export class AppController {
     ])
     const pending = 0;
     return {
-      deposits, cashouts, 
+      deposits, cashouts: info['total_payouts'], 
       rollingReserve: { total: info['total'], released: info['released'] },
       chargeback: info['chargeback'],
       settlements: { pending: 0, settled: info['settled'] - pending }

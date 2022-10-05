@@ -12,12 +12,12 @@ export class AppService {
     const events = await subchain.getPastEvents('Process_Payin', {
       fromBlock: 0,
     });
-    // console.log(events);
+    console.log(events);
     const results = events.map(each => each.returnValues);
     const today = moment.utc(moment.utc().format('YYYY-MM-DD')).unix();
     const events_today = results.filter(each => true).map(each => each.request);
-    const amount = events_today.map(request => web3.utils.fromWei(request.amount));
-    return Number(amount);
+    const amount = events_today.map(request => Number(web3.utils.fromWei(request.amount))).reduce((a,b) => a+b);
+    return amount;
   }
 
   async getCashouts(): Promise<Number> {
@@ -27,8 +27,8 @@ export class AppService {
     const results = events.map(each => each.returnValues);
     const today = moment.utc(moment.utc().format('YYYY-MM-DD')).unix();
     const events_today = results.filter(each => true).map(each => each.request);
-    const amount = events_today.map(request => web3.utils.fromWei(request.amount));
-    return Number(amount);
+    const amount = events_today.map(request => Number(web3.utils.fromWei(request.amount))).reduce((a,b) => a+b);
+    return amount;
   }
 
   async getPayinInfo(): Promise<Object> {

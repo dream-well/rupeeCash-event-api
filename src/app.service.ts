@@ -61,7 +61,9 @@ export class AppService {
       amount: toNumber(each.amount),
       fee_amount: toNumber(each.fee_amount),
       rolling_reserve_amount: toNumber(each.rolling_reserve_amount),
-      chargebackId: toNumber(each.chargebackId),
+      chargebackId: Number(each.chargebackId),
+      processed_at: Number(each.processed_at),
+      remark: each.remark,
       status: each.status,
 
     }))

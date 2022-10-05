@@ -35,12 +35,13 @@ export class AppService {
     let results:any = await batchCall(web3, [
       subchain.methods.total_rolling_reserve_amount().call,
       subchain.methods.paid_rolling_reserve_amount().call,
-      subchain.methods.totalChargeback().call
+      subchain.methods.totalChargeback().call,
+      subchain.methods.total_settled_amount().call
     ]);
     results = results.map(each => Number(web3.utils.fromWei(each)));
-    const [total, released, chargeback] = results;
+    const [total, released, chargeback, settled] = results;
     return {
-      total, released, chargeback
+      total, released, chargeback, settled
     }
   }
 }

@@ -17,11 +17,12 @@ export class AppController {
       this.appService.getCashouts(),
       this.appService.getPayinInfo()
     ])
+    const pending = 0;
     return {
       deposits, cashouts, 
       rollingReserve: { total: info['total'], released: info['released'] },
       chargeback: info['chargeback'],
-      settlements: { pending: 0, settled: 0 }
+      settlements: { pending: 0, settled: info['settled'] - pending }
     }
   }
 }

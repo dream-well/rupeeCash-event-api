@@ -21,7 +21,8 @@ export class AppController {
     return {
       deposits, cashouts: info['total_payouts'], 
       rollingReserve: { total: info['total'], released: info['released'] },
-      chargeback: info['chargeback'],
+      totalChargeback: info['totalChargeback'],
+      totalChargebackPaid: info['totalChargebackPaid'],
       settlements: { pending: 0, settled: info['settled'] - pending }
     }
   }

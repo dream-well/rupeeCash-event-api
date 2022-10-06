@@ -35,14 +35,15 @@ export class AppService {
       subchain.methods.total_rolling_reserve_amount().call,
       subchain.methods.paid_rolling_reserve_amount().call,
       subchain.methods.totalChargeback().call,
+      subchain.methods.totalChargebackPaid().call,
       subchain.methods.total_settled_amount().call,
       subchain.methods.total_payouts_processed().call,
 
     ]);
     results = results.map(each => Number(web3.utils.fromWei(each)));
-    const [total, released, chargeback, settled, total_payouts] = results;
+    const [total, released, totalChargeback, totalChargebackPaid, settled, total_payouts] = results;
     return {
-      total, released, chargeback, settled, total_payouts
+      total, released, totalChargeback, totalChargebackPaid, settled, total_payouts
     }
   }
   

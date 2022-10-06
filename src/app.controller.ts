@@ -37,4 +37,10 @@ export class AppController {
     const payouts = await this.appService.getPayouts();
     return payouts;
   }
+
+  @Get('settlements')
+  async getSettlements(): Promise<Array<Object>> {
+    const settlements = await this.appService.getSettlements();
+    return settlements;
+  }
 }

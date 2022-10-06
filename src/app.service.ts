@@ -91,5 +91,23 @@ export class AppService {
     }))
     return results;
   }
+
+  async getSettlements(): Promise<Array<Object>> {
+    let events: any = await subchain.getPastEvents('Make_Settlement', {
+      fromBlock: 0,
+    });
+    // console.log(events);
+    // const results = events.map(each => each.returnValues);
+    events = events.map(event => event.returnValues);
+    let results: any = await batchCall(web3, events.map(event => subchain.methods.settlements(event.subSettlementId).call));
+    results = results.map((each, i) => ({
+      subSettlementId: events[i].subSettlementId,
+      id: each.id,
+      amount: toNumber(each.amount),
+      createdAt: each.createdAt,
+      status: each.status,
+    }))
+    return results;
+  }
   
 }

@@ -55,4 +55,16 @@ export class AppController {
     const info = await this.appService.getRollingReserveInfo();
     return info;
   }
+
+  @Get('systeminfo')
+  async getFees():Promise<Object> {
+    const info = await this.appService.getSystemInfo();
+    return info;
+  }
+
+  @Get('systemstatus')
+  async getSystemInfo():Promise<Object> {
+    const info = await this.appService.getSystemStatus();
+    return info;
+  }
 }

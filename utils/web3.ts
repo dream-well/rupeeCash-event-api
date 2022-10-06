@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 import fs from 'fs-extra';
+import { ethers } from 'ethers';
 
 const web3 = new Web3(process.env.rpc);
 
@@ -34,4 +35,4 @@ export function batchCall(web3, calls) {
     return Promise.all(promises);
 }
 
-export const toNumber = (bn) => Number(web3.utils.fromWei(bn));
+export const toNumber = (bn, decimals = 18) => Number(ethers.utils.formatUnits(bn, decimals));

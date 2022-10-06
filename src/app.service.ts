@@ -118,6 +118,7 @@ export class AppService {
     
     // const results = events.map(each => each.returnValues);
     let results = events.map((event, i) => ({
+      explorer: process.env.explorer,
       txHash: event.transactionHash, // releaseIndex, uint amount, uint chargeback
       amount: event.returnValues['amount'],
       chargeback: event.returnValues['chargeback']
@@ -137,6 +138,51 @@ export class AppService {
       released: toNumber(released), 
       pending: toNumber(pending.pendingAmount), 
       releaseIndex: pending.releaseIndex
+    }
+  }
+  
+  async getSystemInfo(): Promise<Object> {
+    let [payinFee, payoutFee, rollingReserve, rollingReservePeriod, 
+      minPayin, maxPayin, minPayout, maxPayout, 
+      minimum_settlement_amount, payout_payin_ratio_limit, settlement_ratio,
+      bscAddress] = await batchCall(web3, [
+        subchain.methods.payinFee().call,
+        subchain.methods.payoutFee().call,
+        subchain.methods.rolling_reserve().call,
+        subchain.methods.rolling_reserve_period().call,
+        subchain.methods.minPayinAmount().call,
+        subchain.methods.maxPayinAmount().call,
+        subchain.methods.minPayoutAmount().call,
+        subchain.methods.maxPayoutAmount().call,
+        subchain.methods.minimum_settlement_amount().call,
+        subchain.methods.payout_payin_ratio_limit().call,
+        subchain.methods.settlement_ratio().call,
+        subchain.methods.bscAddress().call,
+    ]);
+    return {
+      payinFee: toNumber(payinFee, 2), 
+      payoutFee: toNumber(payoutFee, 2), 
+      rollingReserve: toNumber(rollingReserve, 2), 
+      rollingReservePeriod,
+      minPayin: toNumber(minPayin),
+      maxPayin: toNumber(maxPayin),
+      minPayout: toNumber(minPayout),
+      maxPayout: toNumber(maxPayout),
+      minimum_settlement_amount: toNumber(minimum_settlement_amount, 2),
+      payout_payin_ratio_limit: toNumber(payout_payin_ratio_limit, 2),
+      settlement_ratio: toNumber(settlement_ratio, 2),
+      bscAddress
+    }
+  }
+  
+  async getSystemStatus(): Promise<Object> {
+    let [maintenanceMode, merchantStatus] = await batchCall(web3, [
+      subchain.methods.maintenanceMode().call,
+      subchain.methods.merchantStatus().call,
+    ]);
+    return {
+      maintenanceMode: Number(maintenanceMode), 
+      merchantStatus: Number(merchantStatus), 
     }
   }
 }

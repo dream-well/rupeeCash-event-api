@@ -55,6 +55,10 @@
             "internalType": "uint256"
         }, {
             "type": "uint256",
+            "name": "created_at",
+            "internalType": "uint256"
+        }, {
+            "type": "uint256",
             "name": "processed_at",
             "internalType": "uint256"
         }, {
@@ -180,6 +184,10 @@
             "internalType": "uint256"
         }, {
             "type": "uint256",
+            "name": "created_at",
+            "internalType": "uint256"
+        }, {
+            "type": "uint256",
             "name": "processed_at",
             "internalType": "uint256"
         }, {
@@ -228,6 +236,10 @@
             "internalType": "uint256"
         }, {
             "type": "uint256",
+            "name": "created_at",
+            "internalType": "uint256"
+        }, {
+            "type": "uint256",
             "name": "processed_at",
             "internalType": "uint256"
         }, {
@@ -265,6 +277,10 @@
         }, {
             "type": "uint256",
             "name": "fee_amount",
+            "internalType": "uint256"
+        }, {
+            "type": "uint256",
+            "name": "created_at",
             "internalType": "uint256"
         }, {
             "type": "uint256",
@@ -682,6 +698,10 @@
         "internalType": "uint256"
     }, {
         "type": "uint256",
+        "name": "created_at",
+        "internalType": "uint256"
+    }, {
+        "type": "uint256",
         "name": "processed_at",
         "internalType": "uint256"
     }, {
@@ -723,6 +743,10 @@
     }, {
         "type": "uint256",
         "name": "fee_amount",
+        "internalType": "uint256"
+    }, {
+        "type": "uint256",
+        "name": "created_at",
         "internalType": "uint256"
     }, {
         "type": "uint256",
@@ -803,6 +827,14 @@
     "inputs": [{
         "type": "uint256",
         "name": "requestId",
+        "internalType": "uint256"
+    }, {
+        "type": "uint256",
+        "name": "releaseDate",
+        "internalType": "uint256"
+    }, {
+        "type": "uint256",
+        "name": "releaseAmount",
         "internalType": "uint256"
     }, {
         "type": "bytes32",

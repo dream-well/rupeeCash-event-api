@@ -131,8 +131,6 @@ export class AppService {
       subchain.methods.paid_rolling_reserve_amount().call,
       subchain.methods.get_pending_rolling_reserve().call,
     ]);
-    console.log(results);
-    // results = results.map(each => Number(web3.utils.fromWei(each)));
     const [total, released, pending] = results;
     return {
       total: toNumber(total), 

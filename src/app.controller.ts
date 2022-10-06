@@ -43,4 +43,16 @@ export class AppController {
     const settlements = await this.appService.getSettlements();
     return settlements;
   }
+
+  @Get('harvests')
+  async getHarvests(): Promise<Array<Object>> {
+    const harvests = await this.appService.getHarvests();
+    return harvests;
+  }
+
+  @Get('rollingreserve')
+  async getRollingReserveInfo():Promise<Object> {
+    const info = await this.appService.getRollingReserveInfo();
+    return info;
+  }
 }

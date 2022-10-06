@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
 import web3, { batchCall, subchain, toNumber } from 'utils/web3';
-
 @Injectable()
 export class AppService {
   getHello(): string {
@@ -46,7 +45,7 @@ export class AppService {
       total, released, chargeback, settled, total_payouts
     }
   }
-
+  
   async getDeposits(): Promise<Array<Object>> {
     let events: any = await subchain.getPastEvents('Request_Payin', {
       fromBlock: 0,
@@ -65,11 +64,11 @@ export class AppService {
       processed_at: Number(each.processed_at),
       remark: each.remark,
       status: each.status,
-
+      
     }))
     return results;
   }
-
+  
   async getPayouts(): Promise<Array<Object>> {
     let events: any = await subchain.getPastEvents('Request_Payout', {
       fromBlock: 0,
@@ -87,11 +86,11 @@ export class AppService {
       processed_at: Number(each.processed_at),
       remark: each.remark,
       status: each.status,
-
+      
     }))
     return results;
   }
-
+  
   async getSettlements(): Promise<Array<Object>> {
     let events: any = await subchain.getPastEvents('Make_Settlement', {
       fromBlock: 0,
@@ -110,4 +109,36 @@ export class AppService {
     return results;
   }
   
+  
+  async getHarvests(): Promise<Array<Object>> {
+    const events = await subchain.getPastEvents('Harvest', {
+      fromBlock: 0,
+    });
+    // console.log(events);
+    
+    // const results = events.map(each => each.returnValues);
+    let results = events.map((event, i) => ({
+      txHash: event.transactionHash, // releaseIndex, uint amount, uint chargeback
+      amount: event.returnValues['amount'],
+      chargeback: event.returnValues['chargeback']
+    }))
+    return results;
+  }
+  
+  async getRollingReserveInfo(): Promise<Object> {
+    let results:any = await batchCall(web3, [
+      subchain.methods.total_rolling_reserve_amount().call,
+      subchain.methods.paid_rolling_reserve_amount().call,
+      subchain.methods.get_pending_rolling_reserve().call,
+    ]);
+    console.log(results);
+    // results = results.map(each => Number(web3.utils.fromWei(each)));
+    const [total, released, pending] = results;
+    return {
+      total: toNumber(total), 
+      released: toNumber(released), 
+      pending: toNumber(pending.pendingAmount), 
+      releaseIndex: pending.releaseIndex
+    }
+  }
 }

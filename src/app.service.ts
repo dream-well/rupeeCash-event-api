@@ -120,24 +120,27 @@ export class AppService {
     let results = events.map((event, i) => ({
       explorer: process.env.explorer,
       txHash: event.transactionHash, // releaseIndex, uint amount, uint chargeback
-      amount: event.returnValues['amount'],
-      chargeback: event.returnValues['chargeback']
+      amount: toNumber(event.returnValues['amount']),
+      chargeback: toNumber(event.returnValues['chargeback'])
     }))
     return results;
   }
   
   async getRollingReserveInfo(): Promise<Object> {
-    let results:any = await batchCall(web3, [
+    let [total, released, pending, totalChargeback, totalChargebackPaid] = await batchCall(web3, [
       subchain.methods.total_rolling_reserve_amount().call,
       subchain.methods.paid_rolling_reserve_amount().call,
       subchain.methods.get_pending_rolling_reserve().call,
+      subchain.methods.totalChargeback().call, 
+      subchain.methods.totalChargebackPaid().call, 
     ]);
-    const [total, released, pending] = results;
     return {
       total: toNumber(total), 
       released: toNumber(released), 
-      pending: toNumber(pending.pendingAmount), 
-      releaseIndex: pending.releaseIndex
+      pending: toNumber(pending['pendingAmount']), 
+      releaseIndex: pending['releaseIndex'],
+      totalChargeback: toNumber(totalChargeback),
+      totalChargebackPaid: toNumber(totalChargebackPaid) 
     }
   }
   

@@ -114,7 +114,7 @@ export class AppService {
       timestamp: blocks[i]['timestamp']
     }))    
     // console.log(results);
-    return ret;
+    return ret.reverse();
   }
   
   async getSettlements(): Promise<Array<Object>> {

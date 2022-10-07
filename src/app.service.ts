@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
-import web3, { batchCall, subchain, toNumber } from 'utils/web3';
+import web3, { batchCall, contractInterface, subchain, toNumber } from 'utils/web3';
 @Injectable()
 export class AppService {
   getHello(): string {
@@ -90,6 +90,31 @@ export class AppService {
       
     }))
     return results;
+  }
+
+  async getSyncTransactions(): Promise<Array<Object>> {
+    const events = await subchain.getPastEvents('Sync', {
+      fromBlock: 0,
+    });
+    // console.log(events);
+    // const results = events.map(each => each.returnValues);
+    let [results, blocks] = await Promise.all([
+      batchCall(web3, events.map(event => ({func: web3.eth.getTransaction, params:[event.transactionHash]})))
+      .then(txs => txs.map(tx => contractInterface.parseTransaction({data: tx['input']}))),
+      batchCall(web3, events.map(event => ({func: web3.eth.getBlock, params:[event.blockNumber]})))
+    ]);
+    let ret = results.map((tx, i) => ({
+      txHash: events[i].transactionHash,
+      func: tx.name,
+      args: tx.functionFragment.inputs.reduce((obj, each) => 
+        ( {...obj, 
+          [each.name]: tx.args[each.name]._isBigNumber ? 
+            (tx.args[each.name].toString().length > 10 ? toNumber(tx.args[each.name]) :Number(tx.args[each.name])) : 
+            tx.args[each.name]}), {}),
+      timestamp: blocks[i]['timestamp']
+    }))    
+    // console.log(results);
+    return ret;
   }
   
   async getSettlements(): Promise<Array<Object>> {
@@ -187,6 +212,7 @@ export class AppService {
     return {
       maintenanceMode: Number(maintenanceMode), 
       merchantStatus: Number(merchantStatus), 
+      explorer: process.env.explorer
     }
   }
 }

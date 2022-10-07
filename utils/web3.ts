@@ -4,6 +4,10 @@ import { ethers } from 'ethers';
 
 const web3 = new Web3(process.env.rpc);
 
+function get_abi(name) {
+    return fs.readJsonSync(`data/${name}.json`);
+}
+
 function get_contract(name) {
     const abi = fs.readJsonSync(`data/${name}.json`);
     return new web3.eth.Contract(abi, process.env[name]);
@@ -23,6 +27,12 @@ export function batchCall(web3, calls) {
     let batch = new web3.BatchRequest();
     let promises = calls.map(call => {
         return new Promise((resolve, reject) => {
+            if(call.func) {
+                batch.add(call.func.request(...call.params, (error, data) => {
+                    error ? reject(error) : resolve(data)
+                }));
+                return;
+            }
             let request = call.request({}, (error, data) => 
                 error ? reject(error) : resolve(data)
             );
@@ -36,3 +46,5 @@ export function batchCall(web3, calls) {
 }
 
 export const toNumber = (bn, decimals = 18) => Number(ethers.utils.formatUnits(bn, decimals));
+
+export const contractInterface = new ethers.utils.Interface(get_abi('subchain'));

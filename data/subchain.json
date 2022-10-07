@@ -375,6 +375,21 @@
     }],
     "anonymous": false
 }, {
+    "type": "event",
+    "name": "Sync",
+    "inputs": [{
+        "type": "uint256",
+        "name": "sequenceCount",
+        "internalType": "uint256",
+        "indexed": true
+    }, {
+        "type": "bytes32",
+        "name": "sequenceHash",
+        "internalType": "bytes32",
+        "indexed": true
+    }],
+    "anonymous": false
+}, {
     "type": "function",
     "stateMutability": "view",
     "outputs": [{

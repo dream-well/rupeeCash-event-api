@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -11,15 +11,15 @@ export class AppController {
   }
 
   @Get('dashboard')
-  async getDashboard(): Promise<Object> {
+  async getDashboard(@Query() query): Promise<Object> {
     const [deposits, cashouts, info] = await Promise.all([
-      this.appService.getDepositAmount(),
-      this.appService.getCashoutAmount(),
-      this.appService.getPayinInfo()
+      this.appService.getDepositAmount(query.from, query.to),
+      this.appService.getCashoutAmount(query.from, query.to),
+      this.appService.getPayinInfo(query.from, query.to)
     ])
     const pending = 0;
     return {
-      deposits, cashouts: info['total_payouts'], 
+      deposits, cashouts: cashouts < 0 ? info['total_payouts'] : cashouts,
       rollingReserve: { total: info['total'], released: info['released'] },
       totalChargeback: info['totalChargeback'],
       totalChargebackPaid: info['totalChargebackPaid'],

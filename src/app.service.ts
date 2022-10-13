@@ -7,30 +7,34 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async getDepositAmount(): Promise<Number> {
+  async getDepositAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
     const events = await subchain.getPastEvents('Process_Payin', {
       fromBlock: 0,
     });
     // console.log(events);
     const results = events.map(each => each.returnValues);
-    const today = moment.utc(moment.utc().format('YYYY-MM-DD')).unix();
-    const events_today = results.filter(each => true).map(each => each.request);
-    const amount = events_today.map(request => Number(web3.utils.fromWei(request.amount))).reduce((a,b) => a+b);
+    const events_filtered = results.map(each => each.request).filter(request => from <= request.processed_at && request.processed_at <= to);
+    const amount = events_filtered.map(request => Number(web3.utils.fromWei(request.amount))).reduce((a,b) => a+b, 0);
     return amount;
   }
 
-  async getCashoutAmount(): Promise<Number> {
+  async getCashoutAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
+    if(from == 0) return -1;
     const events = await subchain.getPastEvents('Complete_Payout', {
       fromBlock: 0,
     });
     const results = events.map(each => each.returnValues);
-    const today = moment.utc(moment.utc().format('YYYY-MM-DD')).unix();
-    const events_today = results.filter(each => true).map(each => each.request);
-    const amount = events_today.map(request => Number(web3.utils.fromWei(request.amount))).reduce((a,b) => a+b);
+    const events_filtered = results.filter(({request}) => from <= request.processed_at && request.processed_at <= to);
+    const requests = await batchCall(web3, 
+      events_filtered.map(each => subchain.methods.payOutRequests(each.requestId).call)
+    );
+    const amount = requests.filter(request => request['status'] == 3)
+                            .map(request => Number(web3.utils.fromWei(request['amount'])))
+                            .reduce((a,b) => a+b, 0);
     return amount;
   }
 
-  async getPayinInfo(): Promise<Object> {
+  async getPayinInfo(from = 0, to = Date.now()): Promise<Object> {
     let results:any = await batchCall(web3, [
       subchain.methods.total_rolling_reserve_amount().call,
       subchain.methods.paid_rolling_reserve_amount().call,

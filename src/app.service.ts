@@ -67,7 +67,7 @@ export class AppService {
       status: each.status,
       
     }))
-    return results;
+    return results.reverse();
   }
   
   async getPayouts(): Promise<Array<Object>> {
@@ -89,7 +89,7 @@ export class AppService {
       status: each.status,
       
     }))
-    return results;
+    return results.reverse();
   }
 
   async getSyncTransactions(): Promise<Array<Object>> {
@@ -132,7 +132,7 @@ export class AppService {
       createdAt: each.createdAt,
       status: each.status,
     }))
-    return results;
+    return results.reverse();
   }
   
   
@@ -141,15 +141,17 @@ export class AppService {
       fromBlock: 0,
     });
     // console.log(events);
+    const blocks = await batchCall(web3, events.map(event => ({func: web3.eth.getBlock, params:[event.blockNumber]})));
     
     // const results = events.map(each => each.returnValues);
     let results = events.map((event, i) => ({
       explorer: process.env.explorer,
+      timestamp: blocks[i]['timestamp'],
       txHash: event.transactionHash, // releaseIndex, uint amount, uint chargeback
       amount: toNumber(event.returnValues['amount']),
       chargeback: toNumber(event.returnValues['chargeback'])
     }))
-    return results;
+    return results.reverse();
   }
   
   async getRollingReserveInfo(): Promise<Object> {

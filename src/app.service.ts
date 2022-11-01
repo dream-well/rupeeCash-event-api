@@ -8,10 +8,10 @@ export class AppService {
   }
 
   async getDepositAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
+    console.log({from, to});
     const events = await subchain.getPastEvents('Process_Payin', {
       fromBlock: 0,
     });
-    // console.log(events);
     const results = events.map(each => each.returnValues);
     const events_filtered = results.map(each => each.request).filter(request => from <= request.processed_at && request.processed_at <= to);
     const amount = events_filtered.map(request => Number(web3.utils.fromWei(request.amount))).reduce((a,b) => a+b, 0);
@@ -32,6 +32,14 @@ export class AppService {
                             .map(request => Number(web3.utils.fromWei(request['amount'])))
                             .reduce((a,b) => a+b, 0);
     return amount;
+  }
+
+  async getSettlementAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
+    if(from == 0) return -1;
+    const events = await subchain.getPastEvents('Make_Settlement', {
+      fromBlock: 0,
+    });
+    // const events_filtered = results.filter(({request}) => from <= request.processed_at && request.processed_at <= to);
   }
 
   async getPayinInfo(from = 0, to = Date.now()): Promise<Object> {

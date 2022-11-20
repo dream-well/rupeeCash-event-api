@@ -1,522 +1,774 @@
-[{
-    "type": "event",
-    "name": "Add_Chargeback",
-    "inputs": [{
-        "type": "uint256",
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
         "name": "payInRequestId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
         "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "uint256",
         "name": "chargebackId",
-        "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "uint256",
-        "name": "merchantId",
-        "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "uint256",
-        "name": "amount",
-        "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "bytes32",
-        "name": "infoHash",
-        "internalType": "bytes32",
-        "indexed": false
-    }],
-    "anonymous": false
-}, {
-    "type": "event",
-    "name": "Harvest",
-    "inputs": [{
-        "type": "uint256",
-        "name": "merchantId",
-        "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "uint256",
-        "name": "releaseIndex",
-        "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "uint256",
-        "name": "amount",
-        "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "uint256",
-        "name": "chargeback",
-        "internalType": "uint256",
-        "indexed": false
-    }],
-    "anonymous": false
-}, {
-    "type": "event",
-    "name": "Initialized",
-    "inputs": [{
-        "type": "uint8",
-        "name": "version",
-        "internalType": "uint8",
-        "indexed": false
-    }],
-    "anonymous": false
-}, {
-    "type": "event",
-    "name": "Process_Payin",
-    "inputs": [{
-        "type": "uint256",
-        "name": "requestId",
-        "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "uint256",
-        "name": "merchantId",
-        "internalType": "uint256",
-        "indexed": false
-    }],
-    "anonymous": false
-}, {
-    "type": "event",
-    "name": "Request_Payin",
-    "inputs": [{
-        "type": "uint256",
-        "name": "requestId",
-        "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "uint256",
-        "name": "merchantId",
-        "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "tuple",
-        "name": "request",
-        "internalType": "struct RupeeCashPayIn.PayInRequest",
+        "type": "uint256"
+      },
+      {
         "indexed": false,
-        "components": [{
-            "type": "uint256",
-            "name": "customerId",
-            "internalType": "uint256"
-        }, {
-            "type": "uint256",
-            "name": "amount",
-            "internalType": "uint256"
-        }, {
-            "type": "uint256",
-            "name": "fee_amount",
-            "internalType": "uint256"
-        }, {
-            "type": "uint256",
-            "name": "rolling_reserve_amount",
-            "internalType": "uint256"
-        }, {
-            "type": "uint256",
-            "name": "cashback",
-            "internalType": "uint256"
-        }, {
-            "type": "uint256",
-            "name": "payableAmount",
-            "internalType": "uint256"
-        }, {
-            "type": "uint256",
-            "name": "createdAt",
-            "internalType": "uint256"
-        }, {
-            "type": "uint256",
-            "name": "chargebackId",
-            "internalType": "uint256"
-        }, {
-            "type": "uint256",
-            "name": "remark",
-            "internalType": "uint256"
-        }, {
-            "type": "address",
-            "name": "traderAddress",
-            "internalType": "address"
-        }, {
-            "type": "address",
-            "name": "merchant",
-            "internalType": "address"
-        }, {
-            "type": "uint8",
-            "name": "status",
-            "internalType": "enum RupeeCashPayIn.PayInRequestStatus"
-        }]
-    }],
-    "anonymous": false
-}, {
-    "type": "event",
-    "name": "Set_Payin_Request_Status",
-    "inputs": [{
-        "type": "uint256",
-        "name": "requestId",
         "internalType": "uint256",
-        "indexed": false
-    }, {
-        "type": "uint8",
-        "name": "status",
-        "internalType": "enum RupeeCashPayIn.PayInRequestStatus",
-        "indexed": false
-    }],
-    "anonymous": false
-}, {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{
-        "type": "address",
-        "name": "",
-        "internalType": "contract IERC20"
-    }],
-    "name": "RupeeCash",
-    "inputs": []
-}, {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "add_chargeback",
-    "inputs": [{
-        "type": "uint256",
-        "name": "payInRequestId",
-        "internalType": "uint256"
-    }, {
-        "type": "bytes32",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
         "name": "infoHash",
-        "internalType": "bytes32"
-    }]
-}, {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{
-        "type": "address",
+        "type": "bytes32"
+      }
+    ],
+    "name": "Add_Chargeback",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "releaseIndex",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "chargeback",
+        "type": "uint256"
+      }
+    ],
+    "name": "Harvest",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "requestId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "releaseDate",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "releaseAmount",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "customerId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fee_amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "rolling_reserve_amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cashback",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payableAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "chargebackId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "remark",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "traderAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "merchant",
+            "type": "address"
+          },
+          {
+            "internalType": "enum RupeeCashPayIn.PayInRequestStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct RupeeCashPayIn.PayInRequest",
+        "name": "request",
+        "type": "tuple"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "Process_Payin",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "requestId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "customerId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fee_amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "rolling_reserve_amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cashback",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payableAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "chargebackId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "remark",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "traderAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "merchant",
+            "type": "address"
+          },
+          {
+            "internalType": "enum RupeeCashPayIn.PayInRequestStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct RupeeCashPayIn.PayInRequest",
+        "name": "request",
+        "type": "tuple"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "Request_Payin",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "requestId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum RupeeCashPayIn.PayInRequestStatus",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "Set_Payin_Request_Status",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "RupeeCash",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
         "name": "",
-        "internalType": "contract RupeeCashPayAdmin"
-    }],
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "payInRequestId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "infoHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "add_chargeback",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "admin",
-    "inputs": []
-}, {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "contract RupeeCashPayAdmin",
         "name": "",
-        "internalType": "uint256"
-    }],
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "customerCashbacks",
-    "inputs": [{
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
-        "name": "releaseIndex",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "pendingAmount",
-        "internalType": "uint256"
-    }],
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      }
+    ],
     "name": "get_pending_rolling_reserve",
-    "inputs": [{
-        "type": "uint256",
-        "name": "merchantId",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{
-        "type": "tuple[]",
-        "name": "",
-        "internalType": "struct RupeeCashPayIn.ReleaseInfo[]",
-        "components": [{
-            "type": "uint256",
-            "name": "releaseDate",
-            "internalType": "uint256"
-        }, {
-            "type": "uint256",
-            "name": "releaseAmount",
-            "internalType": "uint256"
-        }]
-    }],
-    "name": "get_release_info",
-    "inputs": [{
-        "type": "uint256",
-        "name": "merchantId",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "from",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "length",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
-        "name": "",
-        "internalType": "uint256"
-    }],
-    "name": "get_release_length",
-    "inputs": [{
-        "type": "uint256",
-        "name": "merchantId",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [{
-        "type": "uint256",
-        "name": "pendingAmount",
-        "internalType": "uint256"
-    }],
-    "name": "harvest",
-    "inputs": [{
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "uint256",
         "name": "releaseIndex",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "pendingAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "from",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "length",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_release_info",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "releaseDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "releaseAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct RupeeCashPayIn.ReleaseInfo[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_release_length",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "releaseIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "harvest",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "pendingAmount",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "init",
-    "inputs": [{
-        "type": "address",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract RupeeCashPayAdmin",
         "name": "_admin",
-        "internalType": "contract RupeeCashPayAdmin"
-    }, {
-        "type": "address",
+        "type": "address"
+      },
+      {
+        "internalType": "contract RupeeCashPayTrader",
         "name": "_traderManager",
-        "internalType": "contract RupeeCashPayTrader"
-    }]
-}, {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
-        "name": "",
-        "internalType": "uint256"
-    }],
+        "type": "address"
+      }
+    ],
+    "name": "init",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "lastChargebackId",
-    "inputs": []
-}, {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "internalType": "uint256"
-    }],
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "paid_rolling_reserve_amounts",
-    "inputs": [{
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
-        "name": "",
-        "internalType": "uint256"
-    }],
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "payInRequestCount",
-    "inputs": []
-}, {
-    "type": "function",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
-        "name": "customerId",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "amount",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "fee_amount",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "rolling_reserve_amount",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "cashback",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "payableAmount",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "createdAt",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "chargebackId",
-        "internalType": "uint256"
-    }, {
-        "type": "uint256",
-        "name": "remark",
-        "internalType": "uint256"
-    }, {
-        "type": "address",
-        "name": "traderAddress",
-        "internalType": "address"
-    }, {
-        "type": "address",
-        "name": "merchant",
-        "internalType": "address"
-    }, {
-        "type": "uint8",
-        "name": "status",
-        "internalType": "enum RupeeCashPayIn.PayInRequestStatus"
-    }],
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "payInRequests",
-    "inputs": [{
-        "type": "uint256",
-        "name": "",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "process_payin",
-    "inputs": [{
-        "type": "uint256",
-        "name": "requestId",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
-        "name": "",
-        "internalType": "uint256"
-    }],
-    "name": "releasedIndexs",
-    "inputs": [{
-        "type": "uint256",
-        "name": "",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "request_payin",
-    "inputs": [{
-        "type": "bytes32",
-        "name": "customerEmailHash",
-        "internalType": "bytes32"
-    }, {
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "customerId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
         "name": "amount",
-        "internalType": "uint256"
-    }, {
-        "type": "address",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "fee_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "rolling_reserve_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "cashback",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payableAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "createdAt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "chargebackId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "remark",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
         "name": "traderAddress",
-        "internalType": "address"
-    }, {
-        "type": "string",
-        "name": "merchant_tx_id",
-        "internalType": "string"
-    }, {
-        "type": "bytes",
-        "name": "signature",
-        "internalType": "bytes"
-    }]
-}, {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "set_payin_request_status",
-    "inputs": [{
-        "type": "uint256",
-        "name": "requestId",
-        "internalType": "uint256"
-    }, {
-        "type": "uint8",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "merchant",
+        "type": "address"
+      },
+      {
+        "internalType": "enum RupeeCashPayIn.PayInRequestStatus",
         "name": "status",
-        "internalType": "enum RupeeCashPayIn.PayInRequestStatus"
-    }]
-}, {
-    "type": "function",
+        "type": "uint8"
+      }
+    ],
     "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "requestId",
+        "type": "uint256"
+      }
+    ],
+    "name": "process_payin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "internalType": "uint256"
-    }],
+        "type": "uint256"
+      }
+    ],
+    "name": "releasedIndexs",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "customerEmailHash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "use_cashback",
+        "type": "bool"
+      },
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "merchant_tx_id",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes",
+        "name": "signature",
+        "type": "bytes"
+      }
+    ],
+    "name": "request_payin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "requestId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum RupeeCashPayIn.PayInRequestStatus",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "set_payin_request_status",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "totalChargebacks",
-    "inputs": [{
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "internalType": "uint256"
-    }],
+        "type": "uint256"
+      }
+    ],
     "name": "totalChargebacksPaid",
-    "inputs": [{
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
-        "name": "",
-        "internalType": "uint256"
-    }],
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "total_pending_payin_amount",
-    "inputs": []
-}, {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "internalType": "uint256"
-    }],
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "total_rolling_reserve_amounts",
-    "inputs": [{
-        "type": "uint256",
+    "outputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "internalType": "uint256"
-    }]
-}, {
-    "type": "function",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
-    "outputs": [{
-        "type": "address",
-        "name": "",
-        "internalType": "contract RupeeCashPayTrader"
-    }],
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "traderManager",
-    "inputs": []
-}]
+    "outputs": [
+      {
+        "internalType": "contract RupeeCashPayTrader",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

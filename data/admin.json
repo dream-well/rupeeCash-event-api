@@ -1,2119 +1,2882 @@
 [
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "broker_address",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "agent_address",
-                "type": "address"
-            }
-        ],
-        "name": "Add_Agent",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-            "indexed": false,
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "broker_address",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "agent_id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "agent_address",
+        "type": "address"
+      }
+    ],
+    "name": "Add_Agent",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "broker_id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "broker_address",
+        "type": "address"
+      }
+    ],
+    "name": "Add_Broker",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "merchant_id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "merchant_address",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "releasedIndex",
+            "type": "uint256"
+          },
+          {
             "internalType": "address",
-            "name": "broker_address",
+            "name": "referrer",
             "type": "address"
-        }],
-        "name": "Add_Broker",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "merchant_id",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "merchant_address",
-                "type": "address"
-            },
-            {
-                "components": [{
-                        "internalType": "uint256",
-                        "name": "id",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "releasedIndex",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "referrer",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "benefeciary_wallet",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "payin_referral_comission",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "payout_referral_comission",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "enum RupeeCashPayAdmin.MerchantStatus",
-                        "name": "status",
-                        "type": "uint8"
-                    },
-                    {
-                        "internalType": "bool",
-                        "name": "isBad",
-                        "type": "bool"
-                    },
-                    {
-                        "internalType": "bool",
-                        "name": "cashbackDisabled",
-                        "type": "bool"
-                    }
-                ],
-                "indexed": false,
-                "internalType": "struct RupeeCashPayAdmin.Merchant",
-                "name": "merchant",
-                "type": "tuple"
-            }
-        ],
-        "name": "Add_Merchant",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "Add_Penalty",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "sender",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "bytes32",
-                "name": "infoHash",
-                "type": "bytes32"
-            }
-        ],
-        "name": "BurnRupeeCash",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "traderAddress",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "busd_amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "rupeeCash_amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "string",
-                "name": "bsc_tx_hash",
-                "type": "string"
-            }
-        ],
-        "name": "Buy_Busd_For_RupeeCash",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "merchant_address",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "bool",
-                "name": "flag",
-                "type": "bool"
-            }
-        ],
-        "name": "Disable_Cashback",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-            "indexed": false,
-            "internalType": "uint8",
-            "name": "version",
+          },
+          {
+            "internalType": "address",
+            "name": "benefeciary_wallet",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_referral_comission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_referral_comission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum RupeeCashPayAdmin.MerchantStatus",
+            "name": "status",
             "type": "uint8"
-        }],
-        "name": "Initialized",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "settlement_id",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "bsc_address",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "Make_Settlement",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": true,
-                "internalType": "address",
-                "name": "previousOwner",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
-        "name": "OwnershipTransferred",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "to",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "Pay_Penalty",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "traderAddress",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "bytes32",
-                "name": "taxHash",
-                "type": "bytes32"
-            }
-        ],
-        "name": "Process_Tax_Payment",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "traderAddress",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "bytes32",
-                "name": "proofHash",
-                "type": "bytes32"
-            }
-        ],
-        "name": "Process_Trader_Profit",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "merchant_address",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "bool",
-                "name": "flag",
-                "type": "bool"
-            }
-        ],
-        "name": "Set_Merchant_Bad",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "merchant_address",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "enum RupeeCashPayAdmin.MerchantStatus",
-                "name": "status",
-                "type": "uint8"
-            }
-        ],
-        "name": "Set_Merchant_Status",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-        }],
-        "name": "Set_Minimum_Settlement_Amount",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "min_amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "max_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "Set_Payin_Amount_Limit",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "min_amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "max_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "Set_Payout_Amount_Limit",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "ratio",
-            "type": "uint256"
-        }],
-        "name": "Set_Payout_Payin_Ratio_Limit",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "merchantId",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "rolling_reserve",
-                "type": "uint256"
-            }
-        ],
-        "name": "Set_Rolling_Reserve",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "ratio",
-            "type": "uint256"
-        }],
-        "name": "Set_Settlement_Ratio",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "address",
-                "name": "traderManager",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "rupeeCashPayIn",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "rupeeCashPayOut",
-                "type": "address"
-            }
-        ],
-        "name": "Set_Sub_Modules",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "merchantId",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "mainChainSequenceCount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "bytes32",
-                "name": "data",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "internalType": "bytes32",
-                "name": "sequenceHash",
-                "type": "bytes32"
-            }
-        ],
-        "name": "Sync_Main_Chain",
-        "type": "event"
-    },
-    {
-        "inputs": [],
-        "name": "RupeeCash",
-        "outputs": [{
-            "internalType": "contract IERC20Burnable",
-            "name": "",
-            "type": "address"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "bytes32",
-                "name": "email_hash",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "mobile_hash",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "address",
-                "name": "agent_address",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "agent_bsc_address",
-                "type": "address"
-            }
-        ],
-        "name": "add_agent",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "broker_address",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "email_hash",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "mobile_hash",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "address",
-                "name": "broker_bsc_address",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "nominee_address",
-                "type": "address"
-            }
-        ],
-        "name": "add_broker",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "email_hash",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "mobile_hash",
-                "type": "bytes32"
-            }
-        ],
-        "name": "add_contact",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "merchant_address",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "referrer",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "payin_referral_comission",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "payout_referral_comission",
-                "type": "uint256"
-            },
-            {
-                "internalType": "address",
-                "name": "merchant_bsc_address",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "benefeciary_wallet",
-                "type": "address"
-            }
-        ],
-        "name": "add_merchant",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "add_penalty",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "merchantId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "add_total_payins_processed",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "merchantId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "add_total_payouts_processed",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-        }],
-        "name": "agent_to_broker",
-        "outputs": [{
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-        }],
-        "name": "autoSettlements",
-        "outputs": [{
+          },
+          {
             "internalType": "bool",
-            "name": "",
+            "name": "isBad",
             "type": "bool"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-        }],
-        "name": "bsc_addresses",
-        "outputs": [{
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "infoHash",
-                "type": "bytes32"
-            }
+          },
+          {
+            "internalType": "bool",
+            "name": "cashbackDisabled",
+            "type": "bool"
+          }
         ],
-        "name": "burnRupeeCash",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "busd_purchase_fee",
-        "outputs": [{
+        "indexed": false,
+        "internalType": "struct RupeeCashPayAdmin.Merchant",
+        "name": "merchant",
+        "type": "tuple"
+      }
+    ],
+    "name": "Add_Merchant",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Add_Penalty",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "infoHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "BurnRupeeCash",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "busd_amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "rupeeCash_amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "bsc_tx_hash",
+        "type": "string"
+      }
+    ],
+    "name": "Buy_Busd_For_RupeeCash",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "merchant_address",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "flag",
+        "type": "bool"
+      }
+    ],
+    "name": "Disable_Cashback",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "broker_address",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "debt",
+        "type": "uint256"
+      }
+    ],
+    "name": "Loan_To_Broker",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "loan_wallet",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "opex_wallet",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "debt",
+        "type": "uint256"
+      }
+    ],
+    "name": "Loan_To_Opex",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "settlement_id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "bsc_address",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Make_Settlement",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "settlement_id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "bsc_address",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "benefeciary_wallet",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Make_Settlement_For_Merchant",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Pay_Penalty",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "taxHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "Process_Tax_Payment",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "proofHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "Process_Trader_Profit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "flag",
+        "type": "bool"
+      }
+    ],
+    "name": "Set_Auto_Settlement",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_expirationTime",
+        "type": "uint256"
+      }
+    ],
+    "name": "Set_Expiration_Time",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "mode",
+        "type": "uint256"
+      }
+    ],
+    "name": "Set_Maintenance_Mode",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "flag",
+        "type": "bool"
+      }
+    ],
+    "name": "Set_Maintenance_Whitelist",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "merchant_address",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "flag",
+        "type": "bool"
+      }
+    ],
+    "name": "Set_Merchant_Bad",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "merchant_address",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum RupeeCashPayAdmin.MerchantStatus",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "Set_Merchant_Status",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Set_Minimum_Settlement_Amount",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "min_amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "max_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Set_Payin_Amount_Limit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "total_payin_fee",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "payin_cashback",
             "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "traderAddress",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "busd_amount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "rupeeCash_amount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "string",
-                "name": "bsc_tx_hash",
-                "type": "string"
-            }
-        ],
-        "name": "buy_busd_for_rupeeCash",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "merchantId",
+            "name": "gtd_trader_comission",
             "type": "uint256"
-        }],
-        "name": "check_payout_payin_ratio",
-        "outputs": [],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "merchantAddress",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "paramHash",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes",
-                "name": "signature",
-                "type": "bytes"
-            }
+          },
+          {
+            "internalType": "uint256",
+            "name": "gtd_broker_comission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ubi_contribution",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_compliance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_deductable_opex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deductable_trader_comission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deductible_agent_comission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "variable_trader_comission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "variable_broker_comission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_variable_opex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_tax",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_dev",
+            "type": "uint256"
+          }
         ],
-        "name": "check_signature",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
+        "indexed": false,
+        "internalType": "struct RupeeCashPayAdmin.PayInFee",
+        "name": "payinFee",
+        "type": "tuple"
+      }
+    ],
+    "name": "Set_Payin_Fees",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "min_amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "max_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Set_Payout_Amount_Limit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "total_payout_fee",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "staking_yield",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_compliance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_opex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_tax",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_dev",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_local_community",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct RupeeCashPayAdmin.PayOutFee",
+        "name": "payoutFee",
+        "type": "tuple"
+      }
+    ],
+    "name": "Set_Payout_Fees",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "ratio",
+        "type": "uint256"
+      }
+    ],
+    "name": "Set_Payout_Payin_Ratio_Limit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "rolling_reserve",
+        "type": "uint256"
+      }
+    ],
+    "name": "Set_Rolling_Reserve",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "ratio",
+        "type": "uint256"
+      }
+    ],
+    "name": "Set_Settlement_Ratio",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "traderManager",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "rupeeCashPayIn",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "rupeeCashPayOut",
+        "type": "address"
+      }
+    ],
+    "name": "Set_Sub_Modules",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "rate",
+        "type": "uint256"
+      }
+    ],
+    "name": "Set_Tax_Interest_Rate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
             "internalType": "address",
-            "name": "",
+            "name": "compliance_wallet",
             "type": "address"
-        }],
-        "name": "contacts",
-        "outputs": [{
-                "internalType": "bytes32",
-                "name": "email_hash",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "mobile_hash",
-                "type": "bytes32"
-            }
+          },
+          {
+            "internalType": "address",
+            "name": "ubi_wallet",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "staking_wallet",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "opex_wallet",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "system_debt_wallet",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "penalty_wallet",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "loan_wallet",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "dev_wallet",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "local_community_wallet",
+            "type": "address"
+          }
         ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "merchant_address",
-                "type": "address"
-            },
-            {
-                "internalType": "bool",
-                "name": "flag",
-                "type": "bool"
-            }
-        ],
-        "name": "disable_cashback",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "expirationTime",
-        "outputs": [{
+        "indexed": false,
+        "internalType": "struct RupeeCashPayAdmin.Wallets",
+        "name": "wallets",
+        "type": "tuple"
+      }
+    ],
+    "name": "Set_Wallets",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "mainChainSequenceCount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "data",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "sequenceHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "Sync_Main_Chain",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "RupeeCash",
+    "outputs": [
+      {
+        "internalType": "contract IERC20Burnable",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "email_hash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "mobile_hash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "agent_address",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "agent_bsc_address",
+        "type": "address"
+      }
+    ],
+    "name": "add_agent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "broker_address",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "nominee_address",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "email_hash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "mobile_hash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "broker_bsc_address",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "bsc_nominee_address",
+        "type": "address"
+      }
+    ],
+    "name": "add_broker",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "email_hash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "mobile_hash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "add_contact",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "merchant_address",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "referrer",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "benefeciary_wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payin_referral_comission",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payout_referral_comission",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "bsc_merchant_address",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "bsc_referrer",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "bsc_benefeciary_wallet",
+        "type": "address"
+      }
+    ],
+    "name": "add_merchant",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "add_penalty",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "add_total_payins_processed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "add_total_payouts_processed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "agentCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "agent_addresses",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "autoSettlements",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "brokerCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "broker_addresses",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "bsc_addresses",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "infoHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "burnRupeeCash",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "busd_purchase_fee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "busd_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "rupeeCash_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "bsc_tx_hash",
+        "type": "string"
+      }
+    ],
+    "name": "buy_busd_for_rupeeCash",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      }
+    ],
+    "name": "check_payout_payin_ratio",
+    "outputs": [],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "merchantAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "paramHash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes",
+        "name": "signature",
+        "type": "bytes"
+      }
+    ],
+    "name": "check_signature",
+    "outputs": [],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "contacts",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "email_hash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "mobile_hash",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "merchant_address",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "flag",
+        "type": "bool"
+      }
+    ],
+    "name": "disable_cashback",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "expirationTime",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "agent_address",
+        "type": "address"
+      }
+    ],
+    "name": "get_agent",
+    "outputs": [
+      {
+        "components": [
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "id",
             "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
+          },
+          {
             "internalType": "address",
             "name": "broker_address",
             "type": "address"
-        }],
-        "name": "get_broker",
-        "outputs": [{
-            "components": [{
-                    "internalType": "uint256",
-                    "name": "system_debt",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "nominee_address",
-                    "type": "address"
-                }
-            ],
-            "internalType": "struct RupeeCashPayAdmin.Broker",
-            "name": "",
-            "type": "tuple"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "address",
-            "name": "merchant_address",
-            "type": "address"
-        }],
-        "name": "get_merchant",
-        "outputs": [{
-            "components": [{
-                    "internalType": "uint256",
-                    "name": "id",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "releasedIndex",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "referrer",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "benefeciary_wallet",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payin_referral_comission",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payout_referral_comission",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "enum RupeeCashPayAdmin.MerchantStatus",
-                    "name": "status",
-                    "type": "uint8"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "isBad",
-                    "type": "bool"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "cashbackDisabled",
-                    "type": "bool"
-                }
-            ],
-            "internalType": "struct RupeeCashPayAdmin.Merchant",
-            "name": "",
-            "type": "tuple"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "get_payin_fee",
-        "outputs": [{
-            "components": [{
-                    "internalType": "uint256",
-                    "name": "payin_cashback",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "gtd_trader_comission",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "gtd_broker_comission",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "ubi_contribution",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payin_compliance",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payin_deductable_opex",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "deductable_trader_comission",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "deductible_agent_comission",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "variable_trader_comission",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "variable_broker_comission",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payin_variable_opex",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payin_tax",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payin_dev",
-                    "type": "uint256"
-                }
-            ],
-            "internalType": "struct RupeeCashPayAdmin.PayInFee",
-            "name": "",
-            "type": "tuple"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "get_payout_fee",
-        "outputs": [{
-            "components": [{
-                    "internalType": "uint256",
-                    "name": "staking_yield",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payout_compliance",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payout_opex",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payout_tax",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "payout_dev",
-                    "type": "uint256"
-                }
-            ],
-            "internalType": "struct RupeeCashPayAdmin.PayOutFee",
-            "name": "",
-            "type": "tuple"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "get_wallets",
-        "outputs": [{
-            "components": [{
-                    "internalType": "address",
-                    "name": "compliance_wallet",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "ubi_wallet",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "staking_wallet",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "opex_wallet",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "system_debt_wallet",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "penalty_wallet",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "loan_wallet",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "dev_wallet",
-                    "type": "address"
-                }
-            ],
-            "internalType": "struct RupeeCashPayAdmin.Wallets",
-            "name": "",
-            "type": "tuple"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "contract IERC20Burnable",
-                "name": "_RupeeCash",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_traderManager",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_rupeeCashPayIn",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_rupeeCashPayOut",
-                "type": "address"
-            }
+          },
+          {
+            "internalType": "enum RupeeCashPayAdmin.AgentStatus",
+            "name": "status",
+            "type": "uint8"
+          }
         ],
-        "name": "init",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-        }],
-        "name": "is_used_tx_hash",
-        "outputs": [{
+        "internalType": "struct RupeeCashPayAdmin.Agent",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "broker_address",
+        "type": "address"
+      }
+    ],
+    "name": "get_broker",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "system_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "nominee_address",
+            "type": "address"
+          },
+          {
+            "internalType": "enum RupeeCashPayAdmin.BrokerStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct RupeeCashPayAdmin.Broker",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "merchant_address",
+        "type": "address"
+      }
+    ],
+    "name": "get_merchant",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "releasedIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "referrer",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "benefeciary_wallet",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_referral_comission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_referral_comission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum RupeeCashPayAdmin.MerchantStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
             "internalType": "bool",
-            "name": "",
+            "name": "isBad",
             "type": "bool"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "broker_address",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "debt",
-                "type": "uint256"
-            }
-        ],
-        "name": "loan_to_broker",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "debt",
-            "type": "uint256"
-        }],
-        "name": "loan_to_opex",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "mainChainSequenceCounts",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "maintenanceMode",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-        }],
-        "name": "maintenanceWhitelist",
-        "outputs": [{
+          },
+          {
             "internalType": "bool",
-            "name": "",
+            "name": "cashbackDisabled",
             "type": "bool"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
+          }
+        ],
+        "internalType": "struct RupeeCashPayAdmin.Merchant",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_payin_fee",
+    "outputs": [
+      {
+        "components": [
+          {
             "internalType": "uint256",
-            "name": "amount",
+            "name": "payin_cashback",
             "type": "uint256"
-        }],
-        "name": "make_settlement",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "amount",
+            "name": "gtd_trader_comission",
             "type": "uint256"
-        }],
-        "name": "make_settlement_for_merchant",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "maxPayinAmount",
-        "outputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "gtd_broker_comission",
             "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "maxPayoutAmount",
-        "outputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "ubi_contribution",
             "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "minPayinAmount",
-        "outputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "payin_compliance",
             "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "minPayoutAmount",
-        "outputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "payin_deductable_opex",
             "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "minimum_settlement_amount",
-        "outputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "deductable_trader_comission",
             "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "deductible_agent_comission",
             "type": "uint256"
-        }],
-        "name": "nonces",
-        "outputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "variable_trader_comission",
             "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "opex_system_debt",
-        "outputs": [{
+          },
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "variable_broker_comission",
             "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [{
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_variable_opex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_tax",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payin_dev",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct RupeeCashPayAdmin.PayInFee",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_payout_fee",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "staking_yield",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_compliance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_opex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_tax",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_dev",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payout_local_community",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct RupeeCashPayAdmin.PayOutFee",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_wallets",
+    "outputs": [
+      {
+        "components": [
+          {
             "internalType": "address",
-            "name": "",
+            "name": "compliance_wallet",
             "type": "address"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "from",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "pay_opex_system_debt",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "from",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "to",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "pay_penalty",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "payinModeNames",
-        "outputs": [{
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "payoutModeNames",
-        "outputs": [{
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "payout_payin_ratio_limits",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
+          },
+          {
             "internalType": "address",
-            "name": "",
+            "name": "ubi_wallet",
             "type": "address"
-        }],
-        "name": "penalties",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "prevSequenceHashes",
-        "outputs": [{
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
+          },
+          {
             "internalType": "address",
-            "name": "",
+            "name": "staking_wallet",
             "type": "address"
-        }],
-        "name": "private_addresses",
-        "outputs": [{
+          },
+          {
             "internalType": "address",
-            "name": "",
+            "name": "opex_wallet",
             "type": "address"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "renounceOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "rolling_reserve_period",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "rolling_reserves",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "rupeeCashPayIn",
-        "outputs": [{
+          },
+          {
             "internalType": "address",
-            "name": "",
+            "name": "system_debt_wallet",
             "type": "address"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "rupeeCashPayOut",
-        "outputs": [{
+          },
+          {
             "internalType": "address",
-            "name": "",
+            "name": "penalty_wallet",
             "type": "address"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "internalType": "bool",
-                "name": "flag",
-                "type": "bool"
-            }
-        ],
-        "name": "set_auto_settlement",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "broker_address",
-                "type": "address"
-            },
-            {
-                "components": [{
-                        "internalType": "uint256",
-                        "name": "system_debt",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "nominee_address",
-                        "type": "address"
-                    }
-                ],
-                "internalType": "struct RupeeCashPayAdmin.Broker",
-                "name": "broker",
-                "type": "tuple"
-            }
-        ],
-        "name": "set_broker",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "bsc_address",
-                "type": "address"
-            }
-        ],
-        "name": "set_bsc_address",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "fee",
-            "type": "uint256"
-        }],
-        "name": "set_busd_purchase_fee",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "_expirationTime",
-            "type": "uint256"
-        }],
-        "name": "set_expiration_time",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "mode",
-            "type": "uint256"
-        }],
-        "name": "set_maintenance_mode",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "internalType": "bool",
-                "name": "flag",
-                "type": "bool"
-            }
-        ],
-        "name": "set_maintenance_whitelist",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "merchant_address",
-                "type": "address"
-            },
-            {
-                "internalType": "bool",
-                "name": "flag",
-                "type": "bool"
-            }
-        ],
-        "name": "set_merchant_bad",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "merchant_address",
-                "type": "address"
-            },
-            {
-                "internalType": "enum RupeeCashPayAdmin.MerchantStatus",
-                "name": "status",
-                "type": "uint8"
-            }
-        ],
-        "name": "set_merchant_status",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-        }],
-        "name": "set_minimum_settlement_amount",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "min_amount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "max_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "set_payin_amount_limit",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256[]",
-            "name": "fees",
-            "type": "uint256[]"
-        }],
-        "name": "set_payin_fees",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "mode",
-                "type": "uint256"
-            },
-            {
-                "internalType": "string",
-                "name": "mode_name",
-                "type": "string"
-            }
-        ],
-        "name": "set_payin_mode",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "min_amount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "max_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "set_payout_amount_limit",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "_payout_tax",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_staking_yield",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_payout_opex",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_payout_compliance",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_payout_dev",
-                "type": "uint256"
-            }
-        ],
-        "name": "set_payout_fees",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "mode",
-                "type": "uint256"
-            },
-            {
-                "internalType": "string",
-                "name": "mode_name",
-                "type": "string"
-            }
-        ],
-        "name": "set_payout_mode",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "merchantId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "ratio",
-                "type": "uint256"
-            }
-        ],
-        "name": "set_payout_payin_ratio_limit",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "merchantId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_rolling_reserve",
-                "type": "uint256"
-            }
-        ],
-        "name": "set_rolling_reserve",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "merchantId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "ratio",
-                "type": "uint256"
-            }
-        ],
-        "name": "set_settlement_ratio",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "_traderManager",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_rupeeCashPayIn",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_rupeeCashPayOut",
-                "type": "address"
-            }
-        ],
-        "name": "set_sub_modules",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "rate",
-            "type": "uint256"
-        }],
-        "name": "set_tax_interest_rate",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "_compliance_wallet",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_ubi_wallet",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_staking_wallet",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_opex_wallet",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_system_debt_wallet",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_penalty_wallet",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_loan_wallet",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_dev_wallet",
-                "type": "address"
-            }
-        ],
-        "name": "set_wallets",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "settlementRequestTimestamps",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "settlement_ratios",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "settlements",
-        "outputs": [{
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "createdAt",
-                "type": "uint256"
-            },
-            {
-                "internalType": "address",
-                "name": "sender",
-                "type": "address"
-            },
-            {
-                "internalType": "enum RupeeCashPayAdmin.SettlementStatus",
-                "name": "status",
-                "type": "uint8"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "uint256",
-                "name": "merchantId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "sub_total_payouts_processed",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-                "internalType": "address",
-                "name": "merchantAddress",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "data",
-                "type": "bytes32"
-            }
-        ],
-        "name": "sync_main_chain",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "taxInterestRate",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "total_payin_fee",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "total_payins_processed",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "total_payout_fee",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "total_payouts_processed",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "name": "total_settled_amounts",
-        "outputs": [{
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "traderManager",
-        "outputs": [{
+          },
+          {
             "internalType": "address",
-            "name": "",
+            "name": "loan_wallet",
             "type": "address"
-        }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{
+          },
+          {
             "internalType": "address",
-            "name": "newOwner",
+            "name": "dev_wallet",
             "type": "address"
-        }],
-        "name": "transferOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }
+          },
+          {
+            "internalType": "address",
+            "name": "local_community_wallet",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct RupeeCashPayAdmin.Wallets",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC20Burnable",
+        "name": "_RupeeCash",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_traderManager",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_rupeeCashPayIn",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_rupeeCashPayOut",
+        "type": "address"
+      }
+    ],
+    "name": "init",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "is_used_tx_hash",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "broker_address",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "debt",
+        "type": "uint256"
+      }
+    ],
+    "name": "loan_to_broker",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "debt",
+        "type": "uint256"
+      }
+    ],
+    "name": "loan_to_opex",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "mainChainSequenceCounts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maintenanceMode",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "maintenanceWhitelist",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "make_settlement",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "make_settlement_for_merchant",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxPayinAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxPayoutAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "merchantCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "merchant_addresses",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "minPayinAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "minPayoutAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "minimum_settlement_amount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "opex_system_debt",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "pay_opex_system_debt",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "pay_penalty",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "payinModeNames",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "payoutModeNames",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "payout_payin_ratio_limits",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "penalties",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "prevSequenceHashes",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "private_addresses",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rolling_reserve_period",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "rolling_reserves",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rupeeCashPayIn",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rupeeCashPayOut",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "flag",
+        "type": "bool"
+      }
+    ],
+    "name": "set_auto_settlement",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "broker_address",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "system_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "nominee_address",
+            "type": "address"
+          },
+          {
+            "internalType": "enum RupeeCashPayAdmin.BrokerStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct RupeeCashPayAdmin.Broker",
+        "name": "broker",
+        "type": "tuple"
+      }
+    ],
+    "name": "set_broker",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "bsc_address",
+        "type": "address"
+      }
+    ],
+    "name": "set_bsc_address",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_busd_purchase_fee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_expirationTime",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_expiration_time",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "mode",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_maintenance_mode",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "flag",
+        "type": "bool"
+      }
+    ],
+    "name": "set_maintenance_whitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "merchant_address",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "flag",
+        "type": "bool"
+      }
+    ],
+    "name": "set_merchant_bad",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "merchant_address",
+        "type": "address"
+      },
+      {
+        "internalType": "enum RupeeCashPayAdmin.MerchantStatus",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "set_merchant_status",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_minimum_settlement_amount",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "min_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "max_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_payin_amount_limit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "fees",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "set_payin_fees",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "mode",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "mode_name",
+        "type": "string"
+      }
+    ],
+    "name": "set_payin_mode",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "min_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "max_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_payout_amount_limit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_payout_tax",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_staking_yield",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_payout_opex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_payout_compliance",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_payout_dev",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_payout_local_community",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_payout_fees",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "mode",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "mode_name",
+        "type": "string"
+      }
+    ],
+    "name": "set_payout_mode",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "ratio",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_payout_payin_ratio_limit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_rolling_reserve",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_rolling_reserve",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "ratio",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_settlement_ratio",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_traderManager",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_rupeeCashPayIn",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_rupeeCashPayOut",
+        "type": "address"
+      }
+    ],
+    "name": "set_sub_modules",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "rate",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_tax_interest_rate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_compliance_wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_ubi_wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_staking_wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_opex_wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_system_debt_wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_penalty_wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_loan_wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_dev_wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_local_community_wallet",
+        "type": "address"
+      }
+    ],
+    "name": "set_wallets",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "settlementRequestTimestamps",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "settlement_ratios",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "settlements",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "createdAt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "internalType": "enum RupeeCashPayAdmin.SettlementStatus",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "merchantId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "sub_total_payouts_processed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "merchantAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "data",
+        "type": "bytes32"
+      }
+    ],
+    "name": "sync_main_chain",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "taxInterestRate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "total_payin_fee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "total_payins_processed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "total_payout_fee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "total_payouts_processed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "total_settled_amounts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "traderManager",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
 ]

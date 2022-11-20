@@ -1,38 +1,126 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import moment from 'moment';
 import web3, { batchCall, contractInterface, subchain, toNumber } from 'utils/web3';
+import util from 'util';
+import { InjectModel } from '@nestjs/mongoose';
+import { Payin, PayinDocument } from 'schemas/payin.schema';
+import { Model } from 'mongoose';
+import { Config, ConfigDocument } from 'schemas/config.schema';
+
+const timer = util.promisify(setTimeout);
 @Injectable()
-export class AppService {
+export class AppService implements OnModuleInit {
+
+  constructor(
+    @InjectModel(Payin.name) private payinModel: Model<PayinDocument>,
+    @InjectModel(Config.name) private configModel: Model<ConfigDocument>
+  ) {}
+
+  async onModuleInit() {
+    console.log(`Fetching data from blockchain...`);
+    await this.init_config();
+    this.sync_payin();
+  }
+
+  async init_config() {
+    // await this.configModel.remove({});
+    const config = await this.configModel.findOne();
+    if(!config) {
+      console.log('init config');
+      const newConfig = new this.configModel();
+      await newConfig.save();
+    }
+  }
+
+  async sync_payin() {
+    console.log("deposit", await this.getDepositAmount());
+    const config = await this.configModel.findOne();
+    console.log('sync_payin from', config.payin_blocknumber);
+    while(true) {
+      const events = await subchain.getPastEvents('allEvents', {
+        fromBlock: config.payin_blocknumber,
+        toBlock: config.payin_blocknumber + 5000
+      });
+      const filtered = events.filter(each => each.event == 'Request_Payin' || each.event == 'Process_Payin');
+      if(filtered.length > 0) {
+        console.log("import events", filtered.length);
+      }
+      for(let each of filtered) {
+        try {
+          // console.log(each.returnValues.request);
+          const newPayinLog = new this.payinModel({
+            transactionHash: each.transactionHash,
+            requestId: each.returnValues.requestId,
+            event: each.event,
+            customerId: each.returnValues.request['customerId'],
+            amount: web3.utils.fromWei(each.returnValues.request['amount']),
+            fee_amount: web3.utils.fromWei(each.returnValues.request['fee_amount']),
+            rolling_reserve_amount: web3.utils.fromWei(each.returnValues.request['rolling_reserve_amount']),
+            chargebackId: each.returnValues.request['chargebackId'],
+            created_at: each.returnValues.request['created_at'] * 1000,
+            processed_at: each.returnValues.request['processed_at'] * 1000,
+            merchant: each.returnValues.request['merchant'],
+            status: each.returnValues.request['status'],
+          });
+          await newPayinLog.save();
+        } catch(e) {
+          if(e.code == 11000) continue;
+          console.log(e.code, e.message);
+        }
+      }
+      const current_blocknumber = await web3.eth.getBlockNumber();
+      config.payin_blocknumber = Math.min(config.payin_blocknumber + 5000, current_blocknumber);
+      await config.save();
+      if(config.payin_blocknumber % 10 < 2) {
+        console.log('sync_payin from', config.payin_blocknumber);
+        await timer(2000);
+      }
+    }
+  }
+
   getHello(): string {
     return 'Hello World!';
   }
 
   async getDepositAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
-    console.log({from, to});
-    const events = await subchain.getPastEvents('Process_Payin', {
-      fromBlock: 0,
-    });
-    const results = events.map(each => each.returnValues);
-    const events_filtered = results.map(each => each.request).filter(request => from <= request.processed_at && request.processed_at <= to);
-    const amount = events_filtered.map(request => Number(web3.utils.fromWei(request.amount))).reduce((a,b) => a+b, 0);
-    return amount;
+    const result = await this.payinModel.aggregate([
+      { $match: { event: { $eq: 'Process_Payin' }, processed_at: { $gte: new Date(from * 1000), $lte: new Date(to * 1000)} } },
+      { $group: { _id: null, amount: { $sum: "$amount" } } }
+    ])
+    return result[0].amount;
   }
 
   async getCashoutAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
-    if(from == 0) return -1;
-    const events = await subchain.getPastEvents('Complete_Payout', {
+    const result = await this.payinModel.aggregate([
+      { $match: { event: { $eq: 'Process_Payin' } } },
+      { $group: { _id: null, amount: { $sum: "$amount" } } }
+    ])
+    return 0;
+  }
+
+  async getDeposits(index = 0, count = 100): Promise<Array<Object>> {
+    let events: any = await subchain.getPastEvents('Request_Payin', {
       fromBlock: 0,
     });
-    const results = events.map(each => each.returnValues);
-    const events_filtered = results.filter(({request}) => from <= request.processed_at && request.processed_at <= to);
-    const requests = await batchCall(web3, 
-      events_filtered.map(each => subchain.methods.payOutRequests(each.requestId).call)
-    );
-    const amount = requests.filter(request => request['status'] == 3)
-                            .map(request => Number(web3.utils.fromWei(request['amount'])))
-                            .reduce((a,b) => a+b, 0);
-    return amount;
+    // console.log(events);
+    // const results = events.map(each => each.returnValues);
+    events = events.map(event => event.returnValues);
+    let results: any = await batchCall(web3, events.map(event => subchain.methods.payInRequests(event.requestId).call));
+    results = results.map((each, i) => ({
+      requestId: events[i].requestId,
+      customerId: each.customerId,
+      amount: toNumber(each.amount),
+      fee_amount: toNumber(each.fee_amount),
+      rolling_reserve_amount: toNumber(each.rolling_reserve_amount),
+      chargebackId: Number(each.chargebackId),
+      processed_at: Number(each.processed_at),
+      remark: each.remark,
+      status: each.status,
+      
+    }))
+    return results.reverse();
   }
+
 
   async getSettlementAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
     if(from == 0) return -1;
@@ -57,29 +145,6 @@ export class AppService {
     return {
       total, released, totalChargeback, totalChargebackPaid, settled, total_payouts
     }
-  }
-  
-  async getDeposits(): Promise<Array<Object>> {
-    let events: any = await subchain.getPastEvents('Request_Payin', {
-      fromBlock: 0,
-    });
-    // console.log(events);
-    // const results = events.map(each => each.returnValues);
-    events = events.map(event => event.returnValues);
-    let results: any = await batchCall(web3, events.map(event => subchain.methods.payInRequests(event.requestId).call));
-    results = results.map((each, i) => ({
-      requestId: events[i].requestId,
-      customerId: each.customerId,
-      amount: toNumber(each.amount),
-      fee_amount: toNumber(each.fee_amount),
-      rolling_reserve_amount: toNumber(each.rolling_reserve_amount),
-      chargebackId: Number(each.chargebackId),
-      processed_at: Number(each.processed_at),
-      remark: each.remark,
-      status: each.status,
-      
-    }))
-    return results.reverse();
   }
   
   async getPayouts(): Promise<Array<Object>> {

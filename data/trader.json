@@ -1,1019 +1,1063 @@
 [
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "tax_dues",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tax_debt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tax_interest",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "profit_pending",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "agent_debt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "system_debt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "accountType",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "platformType",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "lastKnownBalance",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayinTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayoutTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayinTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayoutTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "createdAt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tradingAmount30days",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "index30days",
-              "type": "uint256"
-            },
-            {
-              "internalType": "address",
-              "name": "agent_address",
-              "type": "address"
-            },
-            {
-              "internalType": "enum RupeeCashPayTrader.TraderStatus",
-              "name": "status",
-              "type": "uint8"
-            },
-            {
-              "internalType": "uint256[]",
-              "name": "payinModes",
-              "type": "uint256[]"
-            },
-            {
-              "internalType": "uint256[]",
-              "name": "payoutModes",
-              "type": "uint256[]"
-            }
-          ],
-          "indexed": false,
-          "internalType": "struct RupeeCashPayTrader.Trader",
-          "name": "trader",
-          "type": "tuple"
-        }
-      ],
-      "name": "Add_Trader",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        }
-      ],
-      "name": "Alert_Trader",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint8",
-          "name": "version",
-          "type": "uint8"
-        }
-      ],
-      "name": "Initialized",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "bytes32",
-          "name": "taxHash",
-          "type": "bytes32"
-        }
-      ],
-      "name": "Process_Tax_Payment",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "bytes32",
-          "name": "proofHash",
-          "type": "bytes32"
-        }
-      ],
-      "name": "Process_Trader_Profit",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "enum RupeeCashPayTrader.TraderStatus",
-          "name": "status",
-          "type": "uint8"
-        }
-      ],
-      "name": "Set_Trader_Status",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "RupeeCash",
-      "outputs": [
-        {
-          "internalType": "contract IERC20",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "accountType",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "limit30days",
-          "type": "uint256"
-        }
-      ],
-      "name": "add_account_type",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "email_hash",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "mobile_hash",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "address",
-          "name": "agent_address",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "accountType",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "platformType",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "payinModes",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "payoutModes",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "add_trader",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "admin",
-      "outputs": [
-        {
-          "internalType": "contract RupeeCashPayAdmin",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "alert_list",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "customerId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "choose_trader",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "customers",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "numberOfPayinTrades",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "numberOfPayoutTrades",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "totalPayinTradeAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "totalPayoutTradeAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "createdAt",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "customerId",
-          "type": "uint256"
-        }
-      ],
-      "name": "get_customer",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayinTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayoutTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayinTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayoutTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "createdAt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "address[]",
-              "name": "pastTraders",
-              "type": "address[]"
-            }
-          ],
-          "internalType": "struct RupeeCashPayTrader.Customer",
-          "name": "",
-          "type": "tuple"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "trader_address",
-          "type": "address"
-        }
-      ],
-      "name": "get_trader",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "tax_dues",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tax_debt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tax_interest",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "profit_pending",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "agent_debt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "system_debt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "accountType",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "platformType",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "lastKnownBalance",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayinTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayoutTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayinTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayoutTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "createdAt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tradingAmount30days",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "index30days",
-              "type": "uint256"
-            },
-            {
-              "internalType": "address",
-              "name": "agent_address",
-              "type": "address"
-            },
-            {
-              "internalType": "enum RupeeCashPayTrader.TraderStatus",
-              "name": "status",
-              "type": "uint8"
-            },
-            {
-              "internalType": "uint256[]",
-              "name": "payinModes",
-              "type": "uint256[]"
-            },
-            {
-              "internalType": "uint256[]",
-              "name": "payoutModes",
-              "type": "uint256[]"
-            }
-          ],
-          "internalType": "struct RupeeCashPayTrader.Trader",
-          "name": "",
-          "type": "tuple"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "get_trader_count",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "get_traders",
-      "outputs": [
-        {
-          "internalType": "address[]",
-          "name": "",
-          "type": "address[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "contract RupeeCashPayAdmin",
-          "name": "_admin",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_rupeeCashPayIn",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_rupeeCashPayOut",
-          "type": "address"
-        }
-      ],
-      "name": "init",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "isCustomerPastTrader",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "trader_address",
-          "type": "address"
-        }
-      ],
-      "name": "is_active_trader",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "debt",
-          "type": "uint256"
-        }
-      ],
-      "name": "loan_to_trader",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "debt",
-          "type": "uint256"
-        }
-      ],
-      "name": "loan_to_trader_by_admin",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "taxHash",
-          "type": "bytes32"
-        }
-      ],
-      "name": "process_tax_payment",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "proofHash",
-          "type": "bytes32"
-        }
-      ],
-      "name": "process_trader_profit",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "rupeeCashPayIn",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "rupeeCashPayOut",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "customerId",
-          "type": "uint256"
-        },
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayinTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayoutTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayinTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayoutTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "createdAt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "address[]",
-              "name": "pastTraders",
-              "type": "address[]"
-            }
-          ],
-          "internalType": "struct RupeeCashPayTrader.Customer",
-          "name": "customer",
-          "type": "tuple"
-        }
-      ],
-      "name": "set_customer",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "tax_dues",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tax_debt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tax_interest",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "profit_pending",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "agent_debt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "system_debt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "accountType",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "platformType",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "lastKnownBalance",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayinTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "numberOfPayoutTrades",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayinTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "totalPayoutTradeAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "createdAt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tradingAmount30days",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "index30days",
-              "type": "uint256"
-            },
-            {
-              "internalType": "address",
-              "name": "agent_address",
-              "type": "address"
-            },
-            {
-              "internalType": "enum RupeeCashPayTrader.TraderStatus",
-              "name": "status",
-              "type": "uint8"
-            },
-            {
-              "internalType": "uint256[]",
-              "name": "payinModes",
-              "type": "uint256[]"
-            },
-            {
-              "internalType": "uint256[]",
-              "name": "payoutModes",
-              "type": "uint256[]"
-            }
-          ],
-          "internalType": "struct RupeeCashPayTrader.Trader",
-          "name": "trader",
-          "type": "tuple"
-        }
-      ],
-      "name": "set_trader",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "traderAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "enum RupeeCashPayTrader.TraderStatus",
-          "name": "status",
-          "type": "uint8"
-        }
-      ],
-      "name": "set_trader_status",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "total_active_traders",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "total_trader_balance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "tradingLimit30days",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "balance",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "positive_limit",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "negative_limit",
-          "type": "uint256"
-        }
-      ],
-      "name": "update_trader_last_known_balance",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
-  ]
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tax_dues",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tax_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tax_interest",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "profit_pending",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "agent_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "system_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "accountType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "platformType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lastKnownBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayinTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayoutTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayinTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayoutTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tradingAmount30days",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "index30days",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "agent_address",
+            "type": "address"
+          },
+          {
+            "internalType": "enum RupeeCashPayTrader.TraderStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payinModes",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutModes",
+            "type": "uint256[]"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct RupeeCashPayTrader.Trader",
+        "name": "trader",
+        "type": "tuple"
+      }
+    ],
+    "name": "Add_Trader",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      }
+    ],
+    "name": "Alert_Trader",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "taxHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "Process_Tax_Payment",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "proofHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "Process_Trader_Profit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum RupeeCashPayTrader.TraderStatus",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "Set_Trader_Status",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "RupeeCash",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "accountType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "limit30days",
+        "type": "uint256"
+      }
+    ],
+    "name": "add_account_type",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "traderId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "email_hash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "mobile_hash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "agent_address",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "trader_debt_to_agent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "accountType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "platformType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "payinModes",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "payoutModes",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "add_trader",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "admin",
+    "outputs": [
+      {
+        "internalType": "contract RupeeCashPayAdmin",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "alert_list",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "customerId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "choose_trader",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "customers",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "numberOfPayinTrades",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "numberOfPayoutTrades",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalPayinTradeAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalPayoutTradeAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "createdAt",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "customerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_customer",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayinTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayoutTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayinTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayoutTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address[]",
+            "name": "pastTraders",
+            "type": "address[]"
+          }
+        ],
+        "internalType": "struct RupeeCashPayTrader.Customer",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "trader_address",
+        "type": "address"
+      }
+    ],
+    "name": "get_trader",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tax_dues",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tax_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tax_interest",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "profit_pending",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "agent_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "system_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "accountType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "platformType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lastKnownBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayinTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayoutTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayinTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayoutTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tradingAmount30days",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "index30days",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "agent_address",
+            "type": "address"
+          },
+          {
+            "internalType": "enum RupeeCashPayTrader.TraderStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payinModes",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutModes",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct RupeeCashPayTrader.Trader",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_trader_count",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_traders",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract RupeeCashPayAdmin",
+        "name": "_admin",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_rupeeCashPayIn",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_rupeeCashPayOut",
+        "type": "address"
+      }
+    ],
+    "name": "init",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isCustomerPastTrader",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "trader_address",
+        "type": "address"
+      }
+    ],
+    "name": "is_active_trader",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "debt",
+        "type": "uint256"
+      }
+    ],
+    "name": "loan_to_trader",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "debt",
+        "type": "uint256"
+      }
+    ],
+    "name": "loan_to_trader_by_admin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "taxHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "process_tax_payment",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "proofHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "process_trader_profit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rupeeCashPayIn",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rupeeCashPayOut",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "customerId",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayinTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayoutTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayinTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayoutTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address[]",
+            "name": "pastTraders",
+            "type": "address[]"
+          }
+        ],
+        "internalType": "struct RupeeCashPayTrader.Customer",
+        "name": "customer",
+        "type": "tuple"
+      }
+    ],
+    "name": "set_customer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tax_dues",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tax_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tax_interest",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "profit_pending",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "agent_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "system_debt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "accountType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "platformType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lastKnownBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayinTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "numberOfPayoutTrades",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayinTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPayoutTradeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tradingAmount30days",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "index30days",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "agent_address",
+            "type": "address"
+          },
+          {
+            "internalType": "enum RupeeCashPayTrader.TraderStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payinModes",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutModes",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct RupeeCashPayTrader.Trader",
+        "name": "trader",
+        "type": "tuple"
+      }
+    ],
+    "name": "set_trader",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "traderAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "enum RupeeCashPayTrader.TraderStatus",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "set_trader_status",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "total_active_traders",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "total_trader_balance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "traderCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "tradingLimit30days",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "balance",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "positive_limit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "negative_limit",
+        "type": "uint256"
+      }
+    ],
+    "name": "update_trader_last_known_balance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

@@ -33,7 +33,6 @@ export class AppService implements OnModuleInit {
   }
 
   async sync_payin() {
-    console.log("deposit", await this.getDepositAmount());
     const config = await this.configModel.findOne();
     console.log('sync_payin from', config.payin_blocknumber);
     while(true) {

@@ -275,7 +275,7 @@ export class AppService implements OnModuleInit {
       maxPayin: toNumber(maxPayin),
       minPayout: toNumber(minPayout),
       maxPayout: toNumber(maxPayout),
-      minimum_settlement_amount: toNumber(minimum_settlement_amount, 2),
+      minimum_settlement_amount: toNumber(minimum_settlement_amount, 18),
       payout_payin_ratio_limit: toNumber(payout_payin_ratio_limit, 2),
       settlement_ratio: toNumber(settlement_ratio, 2),
       bscAddress

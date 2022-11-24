@@ -86,6 +86,7 @@ export class AppService implements OnModuleInit {
       { $match: { event: { $eq: 'Process_Payin' }, processed_at: { $gte: new Date(from * 1000), $lte: new Date(to * 1000)} } },
       { $group: { _id: null, amount: { $sum: "$amount" } } }
     ])
+    if(result.length == 0) return 0;
     return result[0].amount;
   }
 

@@ -145,7 +145,7 @@ export class AppService implements OnModuleInit {
 
   async getCashoutAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
     const result = await this.payoutModel.aggregate([
-      { $match: { status: { $eq: PayoutStatus.Paid } } },
+      { $match: { status: { $eq: PayoutStatus.Paid }, processed_at: { $gte: new Date(from * 1000), $lte: new Date(to * 1000)} } },
       { $group: { _id: null, amount: { $sum: "$amount" } } }
     ])
     if(result.length == 0) return 0;

@@ -23,7 +23,7 @@ export class AppService implements OnModuleInit {
   async onModuleInit() {
     console.log(`Fetching data from blockchain...`);
     await this.init_config();
-    this.sync_payin();
+    this.sync_payin_payout();
   }
 
   async init_config() {
@@ -36,9 +36,9 @@ export class AppService implements OnModuleInit {
     }
   }
 
-  async sync_payin() {
+  async sync_payin_payout() {
     const config = await this.configModel.findOne();
-    console.log('sync_payin from', config.blocknumber_scan);
+    console.log('sync_payin_payout from', config.blocknumber_scan);
     while(true) {
       const current_blocknumber = await web3.eth.getBlockNumber();
       const next_blocknumber = Math.min(config.blocknumber_scan + 10000, current_blocknumber);

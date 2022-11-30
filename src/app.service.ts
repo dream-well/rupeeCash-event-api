@@ -153,28 +153,32 @@ export class AppService implements OnModuleInit {
   }
 
   async getDeposits(index = 0, count = 100): Promise<Array<Object>> {
-    let events: any = await subchain.getPastEvents('Request_Payin', {
-      fromBlock: 0,
-    });
-    // console.log(events);
-    // const results = events.map(each => each.returnValues);
-    events = events.map(event => event.returnValues);
-    let results: any = await batchCall(web3, events.map(event => subchain.methods.payInRequests(event.requestId).call));
-    results = results.map((each, i) => ({
-      requestId: events[i].requestId,
+    let records = await this.payinModel.find({});
+    return records.map((each, i) => ({
+      requestId: each.requestId,
       customerId: each.customerId,
-      amount: toNumber(each.amount),
-      fee_amount: toNumber(each.fee_amount),
-      rolling_reserve_amount: toNumber(each.rolling_reserve_amount),
-      chargebackId: Number(each.chargebackId),
-      processed_at: Number(each.processed_at),
-      remark: each.remark,
+      amount: each.amount,
+      fee_amount: each.fee_amount,
+      rolling_reserve_amount: each.rolling_reserve_amount,
+      chargebackId: each.chargebackId,
+      processed_at: each.processed_at.getTime() / 1000,
       status: each.status,
-      
-    }))
-    return results.reverse();
+    })).reverse();
   }
 
+  async getPayouts(): Promise<Array<Object>> {
+    let records = await this.payoutModel.find({});
+    return records.map((each, i) => ({
+      requestId: each.requestId,
+      customerId: each.customerId,
+      amount: each.amount,
+      fee_amount: each.fee_amount,
+      accountInfo: each.accountInfo,
+      processed_at: each.processed_at.getTime() / 1000,
+      remark: each.remark,
+      status: each.status,
+    })).reverse();
+  }
 
   async getSettlementAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
     if(from == 0) return -1;
@@ -201,28 +205,6 @@ export class AppService implements OnModuleInit {
     }
   }
   
-  async getPayouts(): Promise<Array<Object>> {
-    let events: any = await subchain.getPastEvents('Request_Payout', {
-      fromBlock: 0,
-    });
-    // console.log(events);
-    // const results = events.map(each => each.returnValues);
-    events = events.map(event => event.returnValues);
-    let results: any = await batchCall(web3, events.map(event => subchain.methods.payOutRequests(event.requestId).call));
-    results = results.map((each, i) => ({
-      requestId: events[i].requestId,
-      customerId: each.customerId,
-      amount: toNumber(each.amount),
-      fee_amount: toNumber(each.fee_amount),
-      accountInfo: each.accountInfo,
-      processed_at: Number(each.processed_at),
-      remark: each.remark,
-      status: each.status,
-      
-    }))
-    return results.reverse();
-  }
-
   async getSyncTransactions(): Promise<Array<Object>> {
     const events = await subchain.getPastEvents('Sync', {
       fromBlock: 0,

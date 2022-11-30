@@ -6,10 +6,7 @@ export type ConfigDocument = HydratedDocument<Config>;
 @Schema()
 export class Config {
   @Prop({default: 480000})
-  payin_blocknumber: number;
-
-  @Prop({default: 480000})
-  payout_blocknumber: number;
+  blocknumber_scan: number;
 
   @Prop({default: 480000})
   other_blocknumber: number;

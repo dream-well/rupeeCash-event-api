@@ -2,17 +2,17 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
 import { Event } from './event.schema';
 
-export type PayinDocument = HydratedDocument<Payin>;
+export type PayoutDocument = HydratedDocument<Payout>;
 
 @Schema()
-export class Payin {
+export class Payout {
   
   @Prop()
   requestId: number;
 
   @Prop({type: [{ type: SchemaTypes.ObjectId, ref: 'Event' }]})
   events: Event[];
-
+  
   @Prop()
   customerId: string;
 
@@ -23,10 +23,13 @@ export class Payin {
   fee_amount: number;
 
   @Prop()
-  rolling_reserve_amount: number;
+  accountInfo: string;
 
   @Prop()
-  chargebackId: number;
+  infoHash: string;
+
+  @Prop()
+  remark: string;
 
   @Prop()
   created_at: Date;
@@ -37,13 +40,14 @@ export class Payin {
   @Prop()
   merchant: string;
 
-  // Init, NotPaid, Paid, Expired, Chargebacked, Error, CriticalError
+  // Init, NotPaid, Locked, Paid, Error, CriticalError
   @Prop()
   status: number;
+
 }
 
-export const PayinSchema = SchemaFactory.createForClass(Payin);
+export const PayoutSchema = SchemaFactory.createForClass(Payout);
 
-export enum PayinStatus {
-  Init, NotPaid, Paid, Expired, Chargebacked, Error, CriticalError
+export enum PayoutStatus {
+  Init, NotPaid, Locked, Paid, Error, CriticalError
 }

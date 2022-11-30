@@ -34,7 +34,7 @@ export class AppController {
     ])
     const pending = 0;
     return {
-      deposits, cashouts: cashouts < 0 ? info['total_payouts'] : cashouts,
+      deposits, cashouts,
       rollingReserve: { total: info['total'], released: info['released'] },
       totalChargeback: info['totalChargeback'],
       totalChargebackPaid: info['totalChargebackPaid'],

@@ -3,17 +3,21 @@ import moment from 'moment';
 import web3, { batchCall, contractInterface, subchain, toNumber } from 'utils/web3';
 import util from 'util';
 import { InjectModel } from '@nestjs/mongoose';
-import { Payin, PayinDocument } from 'schemas/payin.schema';
+import { Payin, PayinDocument, PayinStatus } from 'schemas/payin.schema';
 import { Model } from 'mongoose';
 import { Config, ConfigDocument } from 'schemas/config.schema';
+import { Payout, PayoutDocument, PayoutStatus } from 'schemas/payout.schema';
+import { Event, EventDocument } from 'schemas/event.schema';
 
 const timer = util.promisify(setTimeout);
 @Injectable()
 export class AppService implements OnModuleInit {
 
   constructor(
+    @InjectModel(Event.name) private eventModel: Model<EventDocument>,
     @InjectModel(Payin.name) private payinModel: Model<PayinDocument>,
-    @InjectModel(Config.name) private configModel: Model<ConfigDocument>
+    @InjectModel(Payout.name) private payoutModel: Model<PayoutDocument>,
+    @InjectModel(Config.name) private configModel: Model<ConfigDocument>,
   ) {}
 
   async onModuleInit() {
@@ -34,56 +38,105 @@ export class AppService implements OnModuleInit {
 
   async sync_payin() {
     const config = await this.configModel.findOne();
-    console.log('sync_payin from', config.payin_blocknumber);
+    console.log('sync_payin from', config.blocknumber_scan);
     while(true) {
+      const current_blocknumber = await web3.eth.getBlockNumber();
+      const next_blocknumber = Math.min(config.blocknumber_scan + 10000, current_blocknumber);
+      if(next_blocknumber - 1 == config.blocknumber_scan) {
+        await timer(1000);
+        continue;
+      }
       const events = await subchain.getPastEvents('allEvents', {
-        fromBlock: config.payin_blocknumber,
-        toBlock: config.payin_blocknumber + 5000
+        fromBlock: config.blocknumber_scan,
+        toBlock: next_blocknumber - 1
       });
-      const filtered = events.filter(each => each.event == 'Request_Payin' || each.event == 'Process_Payin');
+      const event_names = ['Request_Payin', 'Process_Payin', 'Request_Payout', 'Complete_Payout'];
+      const filtered = events.filter(each => event_names.includes(each.event));
       if(filtered.length > 0) {
         console.log("import events", filtered.length);
       }
       for(let each of filtered) {
         try {
-          // console.log(each.returnValues.request);
-          const newPayinLog = new this.payinModel({
+
+          const requestKeys = Object.keys(each.returnValues.request).filter(key => key.length != 1);
+          const requestId = each.returnValues.requestId;
+
+          const event = new this.eventModel({
             transactionHash: each.transactionHash,
-            requestId: each.returnValues.requestId,
-            event: each.event,
-            customerId: each.returnValues.request['customerId'],
-            amount: web3.utils.fromWei(each.returnValues.request['amount']),
-            fee_amount: web3.utils.fromWei(each.returnValues.request['fee_amount']),
-            rolling_reserve_amount: web3.utils.fromWei(each.returnValues.request['rolling_reserve_amount']),
-            chargebackId: each.returnValues.request['chargebackId'],
-            created_at: each.returnValues.request['created_at'] * 1000,
-            processed_at: each.returnValues.request['processed_at'] * 1000,
-            merchant: each.returnValues.request['merchant'],
-            status: each.returnValues.request['status'],
-          });
-          await newPayinLog.save();
+            name: each.event,
+            timestamp: 0,
+            params: {
+              requestId,
+              request: requestKeys.reduce((_, key) => ({ ..._, [key]: each.returnValues.request[key]}), {})
+            }
+          })
+          await event.save();
+          
+          if(event.name == 'Request_Payin' || event.name == 'Process_Payin') {
+            let payin = await this.payinModel.findOne({requestId});
+
+            if(!payin) {
+              payin = new this.payinModel({
+                requestId: each.returnValues.requestId,
+                events: []
+              });
+            }
+
+            payin.events.push(event);
+            payin.customerId = each.returnValues.request['customerId'];
+            payin.amount = toNumber(each.returnValues.request['amount']);
+            payin.fee_amount = toNumber(each.returnValues.request['fee_amount']);
+            payin.rolling_reserve_amount = toNumber(each.returnValues.request['rolling_reserve_amount']);
+            payin.chargebackId = each.returnValues.request['chargebackId'];
+            payin.created_at = new Date(each.returnValues.request['created_at'] * 1000);
+            payin.processed_at = new Date(each.returnValues.request['processed_at'] * 1000);
+            payin.merchant = each.returnValues.request['merchant'];
+            payin.status = each.returnValues.request['status'];
+
+            await payin.save();
+          }
+          else if(event.name == 'Request_Payout' || event.name == 'Complete_Payout') {
+            let payout = await this.payoutModel.findOne({requestId});
+
+            if(!payout) {
+              payout = new this.payoutModel({
+                requestId: each.returnValues.requestId,
+                events: []
+              });
+            }
+
+            payout.events.push(event);
+            payout.customerId = each.returnValues.request['customerId'];
+            payout.amount = toNumber(each.returnValues.request['amount']);
+            payout.fee_amount = toNumber(each.returnValues.request['fee_amount']);
+            payout.accountInfo = each.returnValues.request['accountInfo'];
+            payout.infoHash = each.returnValues.request['infoHash'];
+            payout.remark = each.returnValues.request['remark'];
+            payout.created_at = new Date(each.returnValues.request['created_at'] * 1000);
+            payout.processed_at = new Date(each.returnValues.request['processed_at'] * 1000);
+            payout.merchant = each.returnValues.request['merchant'];
+            payout.status = each.returnValues.request['status'];
+
+            await payout.save();
+          }
+          
         } catch(e) {
-          if(e.code == 11000) continue;
           console.log(e.code, e.message);
+          if(e.code == 11000) continue;
         }
       }
-      const current_blocknumber = await web3.eth.getBlockNumber();
-      config.payin_blocknumber = Math.min(config.payin_blocknumber + 5000, current_blocknumber);
+      config.blocknumber_scan = next_blocknumber;
       await config.save();
-      if(config.payin_blocknumber % 10 < 2) {
-        console.log('sync_payin from', config.payin_blocknumber);
+      if(config.blocknumber_scan % 10 < 2) {
+        console.log('sync payin-payout from', config.blocknumber_scan);
         await timer(2000);
       }
     }
   }
 
-  getHello(): string {
-    return 'Hello World!';
-  }
-
   async getDepositAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
     const result = await this.payinModel.aggregate([
-      { $match: { event: { $eq: 'Process_Payin' }, processed_at: { $gte: new Date(from * 1000), $lte: new Date(to * 1000)} } },
+      { $match: { status: { $eq: PayinStatus.Paid }, processed_at: { $gte: new Date(from * 1000), $lte: new Date(to * 1000)} } },
       { $group: { _id: null, amount: { $sum: "$amount" } } }
     ])
     if(result.length == 0) return 0;
@@ -91,11 +144,12 @@ export class AppService implements OnModuleInit {
   }
 
   async getCashoutAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
-    const result = await this.payinModel.aggregate([
-      { $match: { event: { $eq: 'Process_Payin' } } },
+    const result = await this.payoutModel.aggregate([
+      { $match: { status: { $eq: PayoutStatus.Paid } } },
       { $group: { _id: null, amount: { $sum: "$amount" } } }
     ])
-    return 0;
+    if(result.length == 0) return 0;
+    return result[0].amount;
   }
 
   async getDeposits(index = 0, count = 100): Promise<Array<Object>> {

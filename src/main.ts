@@ -12,10 +12,10 @@ async function bootstrap() {
 
 switch(process.env.mode) {
   case "db-drop":
-    mongoose.connect('mongodb://localhost/subchain',function(){
+    mongoose.connect('mongodb://localhost/subchain',async () => {
         /* Drop the DB */
-        console.log(mongoose.connection.db.databaseName);
-        mongoose.connection.db.dropDatabase();
+        await mongoose.connection.db.dropDatabase();
+        console.log(mongoose.connection.db.databaseName, "dropped");
         process.exit(0);
     });
     break;

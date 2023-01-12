@@ -27,14 +27,13 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Get('dashboard')
   async getDashboard(@Query() query): Promise<Object> {
-    const [deposits, cashouts, info] = await Promise.all([
-      this.appService.getDepositAmount(query.from, query.to),
+    const [cashouts, info] = await Promise.all([
       this.appService.getCashoutAmount(query.from, query.to),
       this.appService.getPayinInfo(query.from, query.to)
     ])
     const pending = 0;
     return {
-      deposits, cashouts,
+      deposits: info['total_payins'], cashouts,
       rollingReserve: { total: info['total'], released: info['released'] },
       totalChargeback: info['totalChargeback'],
       totalChargebackPaid: info['totalChargebackPaid'],

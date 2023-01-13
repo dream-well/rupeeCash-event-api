@@ -8,6 +8,9 @@ export type PayinDocument = HydratedDocument<Payin>;
 export class Payin {
   
   @Prop()
+  txHash: string;
+
+  @Prop()
   requestId: number;
 
   @Prop({type: [{ type: SchemaTypes.ObjectId, ref: 'Event' }]})

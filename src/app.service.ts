@@ -8,6 +8,7 @@ import { Model } from 'mongoose';
 import { Config, ConfigDocument } from 'schemas/config.schema';
 import { Payout, PayoutDocument, PayoutStatus } from 'schemas/payout.schema';
 import { Event, EventDocument } from 'schemas/event.schema';
+import { Transaction, TransactionDocument } from 'schemas/transaction.schema';
 
 const timer = util.promisify(setTimeout);
 @Injectable()
@@ -18,12 +19,14 @@ export class AppService implements OnModuleInit {
     @InjectModel(Payin.name) private payinModel: Model<PayinDocument>,
     @InjectModel(Payout.name) private payoutModel: Model<PayoutDocument>,
     @InjectModel(Config.name) private configModel: Model<ConfigDocument>,
+    @InjectModel(Transaction.name) private transactionModel: Model<TransactionDocument>,
   ) {}
 
   async onModuleInit() {
     console.log(`Fetching data from blockchain...`);
     await this.init_config();
-    this.sync_payin_payout();
+    // this.sync_payin_payout();
+    this.sync_transactions();
   }
 
   async init_config() {
@@ -43,7 +46,7 @@ export class AppService implements OnModuleInit {
       const current_blocknumber = await web3.eth.getBlockNumber();
       const next_blocknumber = Math.min(config.blocknumber_scan + 10000, current_blocknumber);
       if(next_blocknumber - 1 == config.blocknumber_scan) {
-        await timer(1000);
+        await timer(2000);
         continue;
       }
       const events = await subchain.getPastEvents('allEvents', {
@@ -134,6 +137,44 @@ export class AppService implements OnModuleInit {
     }
   }
 
+  async sync_transactions() {
+    const config = await this.configModel.findOne();
+    console.log('sync_transactions from', config.tx_scan);
+    while(true) {
+      const current_blocknumber = await web3.eth.getBlockNumber();
+      const next_blocknumber = Math.min(config.tx_scan + 10000, current_blocknumber);
+      if(next_blocknumber - 1 == config.tx_scan) {
+        await timer(2000);
+        continue;
+      }
+      const events = await subchain.getPastEvents('Sync', {
+        fromBlock: config.tx_scan,
+        toBlock: next_blocknumber - 1
+      });
+      let [results, blocks] = await Promise.all([
+        batchCall(web3, events.map(event => ({func: web3.eth.getTransaction, params:[event.transactionHash]})))
+        .then(txs => txs.map(tx => contractInterface.parseTransaction({data: tx['input']}))),
+        batchCall(web3, events.map(event => ({func: web3.eth.getBlock, params:[event.blockNumber]})))
+      ]);
+      
+      let transactions = results.map((tx, i) => new this.transactionModel({
+        txHash: events[i].transactionHash,
+        func: tx.name,
+        args: tx.functionFragment.inputs.reduce((obj, each) => 
+          ( {...obj, 
+            [each.name]: tx.args[each.name]._isBigNumber ? 
+              (tx.args[each.name].toString().length > 10 ? toNumber(tx.args[each.name]) :Number(tx.args[each.name])) : 
+              tx.args[each.name]}), {}),
+        timestamp: blocks[i]['timestamp']
+      }));
+
+      await this.transactionModel.bulkSave(transactions);
+      config.tx_scan = next_blocknumber;
+      await config.save();
+      console.log('sync tx ', config.tx_scan);
+    }
+  }
+
   async getDepositAmount(from = 0, to = Date.now() / 1000): Promise<Number> {
     const result = await this.payinModel.aggregate([
       { $match: { status: { $eq: PayinStatus.Paid }, processed_at: { $gte: new Date(from * 1000), $lte: new Date(to * 1000)} } },
@@ -207,28 +248,8 @@ export class AppService implements OnModuleInit {
   }
   
   async getSyncTransactions(): Promise<Array<Object>> {
-    const events = await subchain.getPastEvents('Sync', {
-      fromBlock: 0,
-    });
-    // console.log(events);
-    // const results = events.map(each => each.returnValues);
-    let [results, blocks] = await Promise.all([
-      batchCall(web3, events.map(event => ({func: web3.eth.getTransaction, params:[event.transactionHash]})))
-      .then(txs => txs.map(tx => contractInterface.parseTransaction({data: tx['input']}))),
-      batchCall(web3, events.map(event => ({func: web3.eth.getBlock, params:[event.blockNumber]})))
-    ]);
-    let ret = results.map((tx, i) => ({
-      txHash: events[i].transactionHash,
-      func: tx.name,
-      args: tx.functionFragment.inputs.reduce((obj, each) => 
-        ( {...obj, 
-          [each.name]: tx.args[each.name]._isBigNumber ? 
-            (tx.args[each.name].toString().length > 10 ? toNumber(tx.args[each.name]) :Number(tx.args[each.name])) : 
-            tx.args[each.name]}), {}),
-      timestamp: blocks[i]['timestamp']
-    }))    
     // console.log(results);
-    return ret.reverse();
+    return this.transactionModel.find().sort('timestamp');
   }
   
   async getSettlements(): Promise<Array<Object>> {

@@ -62,7 +62,7 @@ export class AppController {
     return settlements;
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('transactions')
   async getTransactions(): Promise<Array<Object>> {
     const transactions = await this.appService.getSyncTransactions();

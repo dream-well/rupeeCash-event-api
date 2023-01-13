@@ -249,7 +249,7 @@ export class AppService implements OnModuleInit {
   
   async getSyncTransactions(): Promise<Array<Object>> {
     // console.log(results);
-    return this.transactionModel.find().select({"_id": 0, "args": 0}).sort('timestamp');
+    return this.transactionModel.find().select({"_id": 0, "args": 0}).sort([['timestamp', -1]]);
   }
   
   async getSettlements(): Promise<Array<Object>> {

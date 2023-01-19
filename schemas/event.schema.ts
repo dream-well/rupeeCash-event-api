@@ -21,6 +21,9 @@ export class Event {
   @Prop({index: true})
   firstParam: string;
 
+  @Prop({enum: ["Init", "Processed"], default: "Init"})
+  status: string;
+
 }
 
 

@@ -14,8 +14,11 @@ export class Config {
   @Prop({default: 306264})
   event_scan: number;
 
-  @Prop({default: 480000})
-  other_blocknumber: number;
+  @Prop({default: 26440000 })
+  bsc_scan: number;
+
+  @Prop({default: 26440000 })
+  bsc_rupeecash_scan: number;
 
 }
 

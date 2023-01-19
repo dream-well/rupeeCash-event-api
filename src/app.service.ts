@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import moment from 'moment';
-import web3, { batchCall, contractInterface, admin, toNumber } from 'utils/web3';
+import web3, { batchCall, contractInterface, admin, toNumber, web3_bsc, bsc_admin, bscContractInterface } from 'utils/web3';
 import util from 'util';
 import { InjectModel } from '@nestjs/mongoose';
 import { Payin, PayinDocument, PayinStatus } from 'schemas/payin.schema';
@@ -26,6 +26,7 @@ export class AppService implements OnModuleInit {
     console.log(`Fetching data from blockchain...`);
     await this.init_config();
     this.sync_transactions();
+    this.listen_bsc_admin();
   }
 
   async init_config() {
@@ -100,6 +101,95 @@ export class AppService implements OnModuleInit {
       console.log('sync tx ', config.event_scan);
     }
   }
+  
+  async listen_bsc_admin() {
+    const config = await this.configModel.findOne();
+    console.log('listen_bsc_admin from', config.bsc_scan);
+    config.bsc_scan = 26351048;
+    while(true) {
+      const current_blocknumber = await web3_bsc.eth.getBlockNumber();
+      const next_blocknumber = Math.min(config.bsc_scan + 3000, current_blocknumber);
+      if(next_blocknumber - 1 <= config.bsc_scan) {
+        await timer(5000);
+        continue;
+      }
+      // Auto_Settlement_Transfer(address indexed to, uint indexed settlement_id, string indexed private_tx_hash, uint amount, bool auto_exchange)
+      let events = await bsc_admin.getPastEvents('Auto_Settlement_Transfer', {
+        fromBlock: config.bsc_scan,
+        toBlock: next_blocknumber - 1
+      });
+
+      if(events.length) {
+        const transactions = await batchCall(web3_bsc, events.map(event => ({func: web3_bsc.eth.getTransaction, params:[event.transactionHash]})))
+        .then(txs => txs.map(tx => bscContractInterface.parseTransaction({data: tx['input']})));
+        const tx_hashes = transactions.map((tx: any, i) => new this.transactionModel({
+          txHash: events[i].transactionHash,
+          func: tx.name,
+          args: tx.functionFragment.inputs.reduce((obj, each) => 
+            ( {...obj, 
+              [each.name]: tx.args[each.name]._isBigNumber ? 
+                (tx.args[each.name].toString().length > 10 ? toNumber(tx.args[each.name]) :Number(tx.args[each.name])) : 
+                tx.args[each.name]}), {}),
+        })).map(tx => tx.args['private_tx_hash']);
+        console.log(tx_hashes)
+        let eventRecords = await this.eventModel.find({ txHash: {$in: tx_hashes }});
+        for(let event of eventRecords) {
+          event.status = "Processed";
+        }
+        console.log(eventRecords);
+        await this.eventModel.bulkSave(eventRecords);
+      }
+
+      config.bsc_scan = next_blocknumber;
+      await config.save();
+      console.log('sync bsc tx ', config.bsc_scan);
+    }
+  }
+
+  async listen_bsc_rupeeCash() {
+    const config = await this.configModel.findOne();
+    console.log('listen_bsc_admin from', config.bsc_rupeecash_scan);
+    config.bsc_rupeecash_scan = 26351048;
+    while(true) {
+      const current_blocknumber = await web3_bsc.eth.getBlockNumber();
+      const next_blocknumber = Math.min(config.bsc_rupeecash_scan + 3000, current_blocknumber);
+      if(next_blocknumber - 1 <= config.bsc_rupeecash_scan) {
+        await timer(5000);
+        continue;
+      }
+      // event Create_RupeeCash_Busd_Swap_Request(uint indexed requestId, Request request);
+      let events = await bsc_admin.getPastEvents('Create_RupeeCash_Busd_Swap_Request', {
+        fromBlock: config.bsc_rupeecash_scan,
+        toBlock: next_blocknumber - 1
+      });
+
+      if(events.length) {
+        const transactions = await batchCall(web3_bsc, events.map(event => ({func: web3_bsc.eth.getTransaction, params:[event.transactionHash]})))
+        .then(txs => txs.map(tx => bscContractInterface.parseTransaction({data: tx['input']})));
+        const tx_hashes = transactions.map((tx: any, i) => new this.transactionModel({
+          txHash: events[i].transactionHash,
+          func: tx.name,
+          args: tx.functionFragment.inputs.reduce((obj, each) => 
+            ( {...obj, 
+              [each.name]: tx.args[each.name]._isBigNumber ? 
+                (tx.args[each.name].toString().length > 10 ? toNumber(tx.args[each.name]) :Number(tx.args[each.name])) : 
+                tx.args[each.name]}), {}),
+        })).map(tx => tx.args['private_tx_hash']);
+        console.log(tx_hashes)
+        let eventRecords = await this.eventModel.find({ txHash: {$in: tx_hashes }});
+        for(let event of eventRecords) {
+          event.status = "Processed";
+        }
+        console.log(eventRecords);
+        await this.eventModel.bulkSave(eventRecords);
+      }
+
+      config.bsc_rupeecash_scan = next_blocknumber;
+      await config.save();
+      console.log('sync bsc-rupeecash tx ', config.bsc_rupeecash_scan);
+    }
+  }
+
   
   async getSyncTransactions(): Promise<Array<Object>> {
     // console.log(results);

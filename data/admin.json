@@ -315,13 +315,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "bsc_address",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "benefeciary_wallet",
+        "name": "bsc_benefeciary_wallet",
         "type": "address"
       },
       {

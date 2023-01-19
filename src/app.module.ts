@@ -10,7 +10,7 @@ import { Payout, PayoutSchema } from 'schemas/payout.schema';
 import { Event, EventSchema } from 'schemas/event.schema';
 import { Transaction, TransactionSchema } from 'schemas/transaction.schema';
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/subchain'), 
+  imports: [MongooseModule.forRoot('mongodb://localhost/mainchain-events'), 
     MongooseModule.forFeature([{ name: Event.name, schema: EventSchema }]),
     MongooseModule.forFeature([{ name: Payin.name, schema: PayinSchema }]),
     MongooseModule.forFeature([{ name: Payout.name, schema: PayoutSchema }]),

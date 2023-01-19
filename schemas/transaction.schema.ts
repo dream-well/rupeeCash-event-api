@@ -8,7 +8,7 @@ export type TransactionDocument = HydratedDocument<Transaction>;
 @Schema()
 export class Transaction {
   
-  @Prop({ unique: true })
+  @Prop()
   txHash: string;
 
   @Prop()
@@ -22,3 +22,5 @@ export class Transaction {
 }
 
 export const TransactionSchema = SchemaFactory.createForClass(Transaction);
+
+TransactionSchema.index({ txHash: 1, func: 1 }, { unique: true });

@@ -6,8 +6,8 @@ export type EventDocument = HydratedDocument<Event>;
 @Schema()
 export class Event {
   
-  @Prop({unique: true})
-  transactionHash: string;
+  @Prop()
+  txHash: string;
 
   @Prop()
   name: string;
@@ -18,6 +18,13 @@ export class Event {
   @Prop({ type: SchemaTypes.Mixed})
   params: any;
 
+  @Prop({index: true})
+  firstParam: string;
+
 }
 
+
+
 export const EventSchema = SchemaFactory.createForClass(Event);
+
+EventSchema.index({ txHash: 1, name: 1 }, { unique: true });

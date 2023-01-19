@@ -18,7 +18,7 @@ function get_contract(name) {
 // export const payout = get_contract('payout');
 // export const trader = get_contract('trader');
 
-export const subchain = get_contract('subchain');
+export const admin = get_contract('admin');
 
 export default web3;
 
@@ -46,5 +46,12 @@ export function batchCall(web3, calls) {
 }
 
 export const toNumber = (bn, decimals = 18) => Number(ethers.utils.formatUnits(bn, decimals));
+let admin_abi = get_abi('admin');
+let payin_abi = get_abi('payin');
+let payout_abi = get_abi('payout');
+let trader_abi = get_abi('trader');
+let rupeecash_abi = get_abi('rupeeCash');
 
-export const contractInterface = new ethers.utils.Interface(get_abi('subchain'));
+const abis = [...admin_abi, ...payin_abi, ...payout_abi, ...trader_abi, ...rupeecash_abi].filter((each, i, arr) => !arr.find((e, j) => e.name == each.name && j > i));
+// console.log(abis);
+export const contractInterface = new ethers.utils.Interface(abis);

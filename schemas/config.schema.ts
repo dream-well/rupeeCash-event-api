@@ -11,6 +11,9 @@ export class Config {
   @Prop({default: 480000})
   tx_scan: number;
 
+  @Prop({default: 306264})
+  event_scan: number;
+
   @Prop({default: 480000})
   other_blocknumber: number;
 

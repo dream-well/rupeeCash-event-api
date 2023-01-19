@@ -193,6 +193,12 @@
       },
       {
         "indexed": false,
+        "internalType": "bytes32",
+        "name": "info_hash",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "timestamp",
         "type": "uint256"
@@ -459,6 +465,11 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "info_hash",
+        "type": "bytes32"
       },
       {
         "internalType": "string",

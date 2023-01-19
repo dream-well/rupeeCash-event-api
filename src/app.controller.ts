@@ -7,60 +7,10 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Controller()
 export class AppController {
+
   constructor(
     private readonly appService: AppService,
-    private authService: AuthService  
   ) {}
-
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('dashboard')
-  async getDashboard(@Query() query): Promise<Object> {
-    const [cashouts, info] = await Promise.all([
-      this.appService.getCashoutAmount(query.from, query.to),
-      this.appService.getPayinInfo(query.from, query.to)
-    ])
-    const pending = 0;
-    return {
-      deposits: info['total_payins'], cashouts,
-      rollingReserve: { total: info['total'], released: info['released'] },
-      totalChargeback: info['totalChargeback'],
-      totalChargebackPaid: info['totalChargebackPaid'],
-      settlements: { pending: 0, settled: info['settled'] - pending }
-    }
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('deposits')
-  async getDeposits(): Promise<Array<Object>> {
-    const deposits = await this.appService.getDeposits();
-    return deposits;
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('payouts')
-  async getPayouts(): Promise<Array<Object>> {
-    const payouts = await this.appService.getPayouts();
-    return payouts;
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('settlements')
-  async getSettlements(): Promise<Array<Object>> {
-    const settlements = await this.appService.getSettlements();
-    return settlements;
-  }
 
   // @UseGuards(JwtAuthGuard)
   @Get('transactions')
@@ -69,31 +19,10 @@ export class AppController {
     return transactions;
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('harvests')
-  async getHarvests(): Promise<Array<Object>> {
-    const harvests = await this.appService.getHarvests();
-    return harvests;
+  @Get('settlements')
+  async getSettlements(@Query('limit') limit, @Query('offset') offset): Promise<Array<Object>> {
+    const settlements = await this.appService.getEvents({$or: [{name: "Make_Settlement"}, {name: "Make_Settlement_For_Merchant"}]}, limit, offset);
+    return settlements;
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('rollingreserve')
-  async getRollingReserveInfo():Promise<Object> {
-    const info = await this.appService.getRollingReserveInfo();
-    return info;
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('systeminfo')
-  async getFees():Promise<Object> {
-    const info = await this.appService.getSystemInfo();
-    return info;
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('systemstatus')
-  async getSystemInfo():Promise<Object> {
-    const info = await this.appService.getSystemStatus();
-    return info;
-  }
 }
